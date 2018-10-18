@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "circus-scroll2": {
+    "ngx-scrollo-project": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/circus-scroll2",
+            "outputPath": "dist/ngx-scrollo-project",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "circus-scroll2:build"
+            "browserTarget": "ngx-scrollo-project:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "circus-scroll2:build:production"
+              "browserTarget": "ngx-scrollo-project:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "circus-scroll2:build"
+            "browserTarget": "ngx-scrollo-project:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "circus-scroll2-e2e": {
+    "ngx-scrollo-project-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,11 +103,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "circus-scroll2:serve"
+            "devServerTarget": "ngx-scrollo-project:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "circus-scroll2:serve:production"
+              "devServerTarget": "ngx-scrollo-project:serve:production"
             }
           }
         },
@@ -121,7 +121,87 @@
           }
         }
       }
+    },
+    "ngx-scroll": {
+      "root": "projects/ngx-scroll",
+      "sourceRoot": "projects/ngx-scroll/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-scroll/tsconfig.lib.json",
+            "project": "projects/ngx-scroll/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/ngx-scroll/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-scroll/src/test.ts",
+            "tsConfig": "projects/ngx-scroll/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-scroll/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-scroll/tsconfig.lib.json",
+              "projects/ngx-scroll/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ngx-scrollo": {
+      "root": "projects/ngx-scrollo",
+      "sourceRoot": "projects/ngx-scrollo/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-scrollo/tsconfig.lib.json",
+            "project": "projects/ngx-scrollo/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/ngx-scrollo/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-scrollo/src/test.ts",
+            "tsConfig": "projects/ngx-scrollo/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-scrollo/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-scrollo/tsconfig.lib.json",
+              "projects/ngx-scrollo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
-  "defaultProject": "circus-scroll2"
+  "defaultProject": "ngx-scrollo-project"
 }
