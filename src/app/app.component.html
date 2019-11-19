@@ -1,59 +1,73 @@
-<section 
-    class="section section__one"
-    
->
-  <div class="element">
-      <h1 
-        class="title"
-        ngx-scrollo
-        [tweenBegin]="0"
-        [tweenEnd]="99"
-        [tweenFrom]="{letterSpacing : '0vw', fontSize : '2em', opacity: '1'}"
-        [tweenTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
-        [tweenOnProgress]="anim1OnProgress"
-      >
-          Section One
-      </h1>
-  </div>
-</section>
-<section class="section section__two">
+<div class="background"></div>
+<div class="main">
+    <section
+        class="section section__one"
+
+    >
     <div class="element">
-        <!-- <h1
-          class="title"
-          ngx-scrollo
-          [tweenBegin]="0"
-          [tweenEnd]="99"
-          [tweenFrom]="{letterSpacing : '6vw', fontSize : '0em'}"
-          [tweenTo]="{letterSpacing : '0vw', fontSize : '2em'}"
-          [tweenOnProgress]="anim2OnProgress"
-          >
-          Section Two
-        </h1> -->
+        <h1
+            class="title"
+            ngx-scrollo
+            [tweenBegin]="0"
+            [tweenEnd]="100"
+            [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25em', opacity: '1'}"
+            [tweenTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
+            [tweenOnProgress]="anim1OnProgress"
+        >
+            ngx-scrollo
+        </h1>
     </div>
-</section >
-<section class="section flex">
-    <div class="box">
-        <h2>Box 1</h2>
-    </div>
-    <div class="box">
-        <h2>Box 2</h2>
-    </div>
-    <div class="box">
-        <h2>Box 3</h2>
-    </div>
-    <div class="box">
-        <h2>Box 4</h2>
-    </div>
-    <div class="box">
-        <h2>Box 5</h2>
-    </div>
-    <div class="box">
-        <h2>Box 6</h2>
-    </div>
-    <div class="box">
-        <h2>Box 7</h2>
-    </div>
-    <div class="box">
-        <h2>Box 8</h2>
-    </div>
-</section >
+    </section>
+    <section class="section section__two">
+        <div class="element">
+            <h1
+            class="title"
+            ngx-scrollo
+            [tweenBegin]="10"
+            [tweenEnd]="40"
+            [tweenFrom]="{letterSpacing : '-0.1vw', fontSize : '0em', opacity: '0'}"
+            [tweenTo]="{letterSpacing : '0.25vw', fontSize : '2.25em', opacity: '1'}"
+            [tweenOnProgress]="anim2OnProgress"
+            >
+            Scroll animations
+            </h1>
+            <h2
+            class="title"
+            ngx-scrollo
+            [tweenBegin]="30"
+            [tweenEnd]="60"
+            [tweenFrom]="{letterSpacing : '-0.15vw', fontSize : '0em', opacity: '0'}"
+            [tweenTo]="{letterSpacing : '0.25vw', fontSize : '1.75em', opacity: '1'}"
+            [tweenOnProgress]="anim2OnProgress"
+            >
+            made simple
+            </h2>
+        </div>
+    </section >
+    <section class="section flex">
+        <div class="box">
+            <h2>Box 1</h2>
+        </div>
+        <div class="box">
+            <h2>Box 2</h2>
+        </div>
+        <div class="box">
+            <h2>Box 3</h2>
+        </div>
+        <div class="box">
+            <h2>Box 4</h2>
+        </div>
+        <div class="box">
+            <h2>Box 5</h2>
+        </div>
+        <div class="box">
+            <h2>Box 6</h2>
+        </div>
+        <div class="box">
+            <h2>Box 7</h2>
+        </div>
+        <div class="box">
+            <h2>Box 8</h2>
+        </div>
+    </section >
+</div>

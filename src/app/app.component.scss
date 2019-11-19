@@ -1,7 +1,19 @@
+.background {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    background: white;
+    box-shadow: inset 0 0 10em rgba(black, 0.1);
+}
+
+.main {
+    z-index: 1;
+    position: absolute;
+}
+
 .section {
     width: 100%;
     min-height: 100vh;
-    box-shadow: inset 0 0 10em rgba(#000000, 0.15);
     text-align: center;
     overflow: hidden;
     display: flex;
@@ -9,6 +21,7 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    transition: all 1s ease;
 
     &__one {
         position: fixed;
@@ -16,13 +29,18 @@
         width: 100%;
         height: 100vh;
 
-        &.scrolloTweenOnBegin {
-            position: relative;
+        &.scrolloTweenOnEnd {
+            visibility: hidden;
         }
     }
 
     &__two {
-        margin-top: 100vh;
+        padding-top: 100vh;
+
+        .title {
+            font-size: 0;
+            letter-spacing: -0.1em;
+        }
     }
 
     .element {

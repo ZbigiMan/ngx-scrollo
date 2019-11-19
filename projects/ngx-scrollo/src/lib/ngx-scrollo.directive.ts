@@ -7,6 +7,7 @@ import { TinTween } from './tin-tween';
 import { DOCUMENT } from '@angular/common';
 
 @Directive({
+    // tslint:disable-next-line:directive-selector
     selector: '[ngx-scrollo]',
     providers: [TinTween]
 })
@@ -39,12 +40,16 @@ export class ScrolloDirective implements OnInit {
 
     private el: ElementRef;
     private tag: string;
-    private beginPx: number;
-    private endPx: number;
-    private started: number = 0;
-    private completed: number = 0;
-    private revStarted: number = 0;
-    private revCompleted: number = 0;
+    private vh: number;
+    private elementOffset: any;
+    private scrollTop: number;
+    private beginParsed: number;
+    private endParsed: number;
+    private tweenPogress: number;
+    private started = 0;
+    private completed = 0;
+    private revStarted = 0;
+    private revCompleted = 0;
 
     private errors = {
         'error': 'ngx-scrollo Settings Error.',
@@ -55,9 +60,8 @@ export class ScrolloDirective implements OnInit {
     constructor(
         @Inject(DOCUMENT) document,
         public elementRef: ElementRef,
-        private renderer: Renderer,
         private tinTween: TinTween
-        ) {
+    ) {
         this.tinTween = tinTween;
         this.el = elementRef;
         this.tag = this.el.nativeElement.tagName;
@@ -68,8 +72,8 @@ export class ScrolloDirective implements OnInit {
     }
 
     ngOnInit() {
-        this.begin = parseInt(this.tweenBegin);
-        this.end = parseInt(this.tweenEnd);
+        this.begin = parseInt(this.tweenBegin, 10);
+        this.end = parseInt(this.tweenEnd, 10);
         this.from = this.tweenFrom;
         this.to = this.tweenTo;
         this.easing = this.tweenEasing;
@@ -79,8 +83,18 @@ export class ScrolloDirective implements OnInit {
         this.onReverseEnd = this.tweenOnEnd;
         this.onProgress = this.tweenOnProgress;
         this.duration = this.tweenDuration;
+
+        this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        this.elementOffset = this.offset(this.el.nativeElement);
+
+        if (this.elementOffset.top > this.vh) {
+            this.beginParsed = (((this.begin / 100) * this.vh) + this.elementOffset.top) - this.vh;
+            this.endParsed = (((this.end / 100) * this.vh) + this.elementOffset.top + this.elementOffset.height) - this.vh;
+        } else {
+            this.beginParsed = (this.begin / 100) * this.vh;
+            this.endParsed = (this.end / 100) * this.vh;
+        }
     }
-    
 
     @HostListener('click', ['$event']) private onClick(event: Event) {
         if (this.tag === 'A') {
@@ -93,7 +107,7 @@ export class ScrolloDirective implements OnInit {
                 const anchor: HTMLElement = document.getElementById(anchorId);
                 const anchorOffset: any = this.offset(anchor);
                 const currentScrollTop: number = document.documentElement.scrollTop || document.body.scrollTop;
-                let body: HTMLElement = document.documentElement;
+                const body: HTMLElement = document.documentElement;
 
                 this.tinTween.tween({
                     'element': body,
@@ -101,7 +115,7 @@ export class ScrolloDirective implements OnInit {
                     'from': currentScrollTop,
                     'to': anchorOffset.top,
                     'duration': this.duration,
-                    'onComplete': function (data) {
+                    'onComplete': function () {
                         document.location.hash = anchorId;
                     }
                 });
@@ -111,198 +125,170 @@ export class ScrolloDirective implements OnInit {
 
     @HostListener('window:scroll', []) private onscroll() {
 
-        if (this.begin !== undefined) {
+        if (this.begin === NaN) {
+            return;
+        }
 
-            if (this.end === undefined) {
-                this.end = this.begin;
-            }           
+        if (!this.end) {
+            this.end = this.begin;
+        }
 
-            // Viepor height
-            const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        this.scrollTop = window.scrollY;
 
-            const elOffset = this.offset(this.el.nativeElement);
-            let scrollTop = window.scrollY;
-            let scrollHeight = document.documentElement.scrollHeight;
+        // p = 1 - (this.endParsed - this.scrollTopParsed) / (this.endParsed - this.beginParsed);
+        this.tweenPogress = (this.scrollTop - this.beginParsed) / (this.endParsed - this.beginParsed);
 
-            let scrollProgress = scrollTop / (scrollHeight -vh);
-            let scrollTopParsed = scrollHeight * scrollProgress;
 
-            let p: number;
-
-            if (elOffset.top > vh) {
-                this.beginPx = (((this.begin / 100) * vh) + elOffset.top) - vh;
-                this.endPx = (((this.end / 100) * vh) + elOffset.top + elOffset.height) - vh;
-            } else {
-                this.beginPx = (this.begin / 100) * vh;
-                this.endPx = (this.end / 100) * vh;            
+        if (this.tweenPogress < 1) {
+            if (this.completed > 0) {
+                this.revStarted++;
             }
+            this.completed = 0;
+        }
 
-            console.log({
-                begin: this.beginPx,
-                end: this.endPx,
-                scroll: scrollTopParsed,
-                vh: vh
-            });
+        if (this.tweenPogress >= 1) {
+            this.completed++;
+            this.revStarted = 0;
+        }
 
-            p = 1 - (this.endPx - scrollTopParsed) / (this.endPx - this.beginPx); 
-            
-
-            if (p < 1) {
-                if (this.completed > 0) {
-                    this.revStarted++;
-                }
-                this.completed = 0;
+        if (this.tweenPogress <= 0) {
+            if (this.started > 0) {
+                this.revCompleted++;
             }
+            this.started = 0;
+        }
 
-            if (p >= 1) {
-                this.completed++;
-                this.revStarted = 0;
+        if (this.tweenPogress > 0) {
+            this.started++;
+            this.revCompleted = 0;
+        }
+
+        const that = this;
+
+        // Tween function
+
+        if (this.to !== undefined && this.from !== undefined) {
+
+            // Checking 'from' and 'to' objects length
+
+            if (Object.keys(this.from).length !== Object.keys(this.to).length) {
+                console.error(this.errors.error);
+                console.error(this.errors.formToDontMatch);
+                console.error(this.el);
+                return;
             }
+            //
 
-            if (p <= 0) {
-                if (this.started > 0) {
-                    this.revCompleted++;
-                }
-                this.started = 0;
-            }
+            Object.keys(this.to).forEach(function (prop, i) {
 
-            if (p > 0) {
-                this.started++;
-                this.revCompleted = 0;
-            }
-
-            const that = this;
-
-            // Tween function
-
-            if (this.to !== undefined && this.from !== undefined) {
-
-                // Checking 'from' and 'to' objects length 
-
-                if (Object.keys(this.from).length !== Object.keys(this.to).length) {
+                // Checking if 'from' and 'to' property match
+                if (prop !== Object.keys(that.from)[i]) {
                     console.error(this.errors.error);
                     console.error(this.errors.formToDontMatch);
                     console.error(this.el);
                     return;
                 }
-                //
 
-                Object.keys(this.to).forEach(function (prop, i) {
+                // Easing function parameters
+                const value = that.to[prop];
+                const e = that.parseValue(value); // End
+                const b = that.parseValue(that.from[prop]); // Begin;
+                const c = e - b; // Change
+                const d = that.endParsed - that.beginParsed; // Duration
+                let t = that.tweenPogress * d; // Time,
+                let unit = false; // px for example
 
-                    // Checking if 'from' and 'to' property match
+                if (that.completed === 1) {
+                    t = d;
+                }
 
-                    if (prop !== Object.keys(that.from)[i]) {
-                        console.error(this.errors.error);
-                        console.error(this.errors.formToDontMatch);
-                        console.error(this.el);
-                        return;
+                if (that.revCompleted === 1) {
+                    t = 0;
+                }
+
+                if (e !== value) {
+                    unit = value.split(e).join('');
+                } else {
+                    unit = false;
+                }
+
+                if (t >= 0 && t <= d) {
+
+                    // Checking 'easing'
+                    if (that.tinTween.Easing[that.easing] === undefined) {
+                        that.easing = 'easeOutQuad';
                     }
+                    //
 
-                    // Easing function parameters
+                    const newIntVal = that.tinTween.Easing[that.easing](null, t, b, c, d);
+                    let newVal: string;
 
-                    const value = that.to[prop];
-
-                    const e = that.parseValue(value); // End
-                    const b = that.parseValue(that.from[prop]); // Begin;
-                    const c = e - b; // Change
-                    const d = that.endPx - that.beginPx; // Duration
-                    let t = p * d; // Time,
-                    let unit = false; // px for example
-
-                    if (that.completed === 1) {
-                        t = d;
-                    }
-
-                    if (that.revCompleted === 1) {
-                        t = 0;
-                    }
-
-                    if (e !== value) {
-                        unit = value.split(e).join('');
+                    if (unit !== false) {
+                        newVal = newIntVal + unit;
                     } else {
-                        unit = false;
+                        newVal = newIntVal;
                     }
 
-                    if (t >= 0 && t <= d) {
+                    that.el.nativeElement.style[prop] = newVal;
 
-                        // Checking 'easing'
-
-                        if (that.tinTween.Easing[that.easing] === undefined) {
-                            that.easing = 'easeOutQuad';
-                        }
-
-                        //
-
-                        const newIntVal = that.tinTween.Easing[that.easing](null, t, b, c, d);
-                        let newVal: string;
-
-                        if (unit !== false) {
-                            newVal = newIntVal + unit;
-                        } else {
-                            newVal = newIntVal;
-                        }
-
-                        that.el.nativeElement.style[prop] = newVal;
-
-                    }
-                });
-            }
-
-            // Callbacks
-
-            // onBegin
-
-            if (this.started === 1) {
-                this.addClass(that.el.nativeElement, 'scrolloTweenOnBegin');
-                if (this.onBegin !== undefined) {
-                    this.onBegin(this.el);
                 }
-            }
+            });
+        }
 
-            // onEnd
+        // Callbacks
 
-            if (this.completed === 1) {
-                p = 1;
-                this.addClass(that.el.nativeElement, 'scrolloTweenOnEnd');
-                if (this.onEnd !== undefined) {
-                    this.onEnd(this.el);
-                }
-            }
+        // onBegin
 
-            // onReverseBegin
-
-            if (this.revStarted === 1) {
-                this.removeClass(that.el.nativeElement, 'scrolloTweenOnEnd');
-                if (this.onReverseBegin !== undefined) {
-                    this.onReverseBegin(this.el);
-                }
-                this.revStarted++;
-            }
-
-            // onReverseEnd
-
-            if (this.revCompleted === 1) {
-                p = 0;
-                this.removeClass(that.el.nativeElement, 'scrolloTweenOnBegin');
-                if (this.onReverseEnd !== undefined) {
-                    this.onReverseEnd(this.el);
-                }
-                this.revCompleted++;
-            }
-
-
-            // onProgress
-
-            if (p >= 0 && p <= 1) {
-                // console.log(p);
-                if (this.onProgress !== undefined) {
-                    this.onProgress({
-                        progress: p,
-                        element: this.el
-                    });
-                }
+        if (this.started === 1) {
+            this.addClass(that.el.nativeElement, 'scrolloTweenOnBegin');
+            if (this.onBegin !== undefined) {
+                this.onBegin(this.el);
             }
         }
+
+        // onEnd
+
+        if (this.completed === 1) {
+            this.tweenPogress = 1;
+            this.addClass(that.el.nativeElement, 'scrolloTweenOnEnd');
+            if (this.onEnd !== undefined) {
+                this.onEnd(this.el);
+            }
+        }
+
+        // onReverseBegin
+
+        if (this.revStarted === 1) {
+            this.removeClass(that.el.nativeElement, 'scrolloTweenOnEnd');
+            if (this.onReverseBegin !== undefined) {
+                this.onReverseBegin(this.el);
+            }
+            this.revStarted++;
+        }
+
+        // onReverseEnd
+
+        if (this.revCompleted === 1) {
+            this.tweenPogress = 0;
+            this.removeClass(that.el.nativeElement, 'scrolloTweenOnBegin');
+            if (this.onReverseEnd !== undefined) {
+                this.onReverseEnd(this.el);
+            }
+            this.revCompleted++;
+        }
+
+
+        // onProgress
+
+        if (this.tweenPogress >= 0 && this.tweenPogress <= 1) {
+            if (this.onProgress !== undefined) {
+                this.onProgress({
+                    progress: this.tweenPogress,
+                    element: this.el
+                });
+            }
+        }
+
     }
 
     parseValue(val: string) {
@@ -322,7 +308,6 @@ export class ScrolloDirective implements OnInit {
         return this.isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
     }
     offset(elem: HTMLElement) {
-        
         let docElem: HTMLElement,
             win: any,
             box: any;
