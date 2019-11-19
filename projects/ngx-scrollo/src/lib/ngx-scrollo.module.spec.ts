@@ -1,6 +1,6 @@
 import { ScrolloModule } from './ngx-scrollo.module';
 
-describe('CircusScrollModule', () => {
+describe('ScrolloModule', () => {
   let scrolloModule: ScrolloModule;
 
   beforeEach(() => {

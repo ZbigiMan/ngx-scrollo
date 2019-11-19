@@ -1,29 +1,45 @@
+// TinTween previously CsTween
+// Part of ngx-scrollo previously circus-scroll-2
+// Released: December 2016, refactored: 2018, 2019
+// Author: Zbigi Man Zbigniew Stepniewski, www.zbigiman.com, github.com/zbigiman
+
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class TinTween {    
 
-    tween(opt) {
+    tween(opt: { 
+        element: any; 
+        property: any; 
+        from: any; 
+        to: any; 
+        duration: any; 
+        onComplete: any; 
+        easing?: any; 
+        onProgress?: any; 
+    }) {
 
         let start = performance.now();
         let that = this;
 
         function tw() {            
 
-            let progress = performance.now() - start,
+            let progress: number,
                 e = opt.to,
-                t = progress,
+                t = performance.now() - start,
                 b = opt.from,
                 c = e - b,
                 d = opt.duration,
                 easing = that.Easing['def'],
-                value;
+                value: number;
+
 
             if (opt.easing !== undefined) {
                 easing = opt.easing;
             }
 
-            value = that.Easing[easing](null, t, b, c, d);               
+            value = that.Easing[easing](null, t, b, c, d);  
+            progress = Math.round((value /e) * 100);           
 
             if (opt.onProgress !== undefined) {
                 opt.onProgress({
@@ -32,8 +48,7 @@ export class TinTween {
                 });
             }
 
-            if (progress <= opt.duration) {
-
+            if (t <= d) {
                 var f = window.requestAnimationFrame(tw);
             } else {
                 window.cancelAnimationFrame(f);

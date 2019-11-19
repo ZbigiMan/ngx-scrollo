@@ -1,8 +1,8 @@
-// Circus Scroll 2
-// December 2016
+// ngx-scrollo previously circus-scroll-2
+// Released: December 2016, refactored: 2018, 2019
 // Author: Zbigi Man Zbigniew Stepniewski, www.zbigiman.com, github.com/zbigiman
 
-import { Directive, ElementRef, HostListener, Input, Renderer, Inject } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Renderer, Inject, OnInit } from '@angular/core';
 import { TinTween } from './tin-tween';
 import { DOCUMENT } from '@angular/common';
 
@@ -11,7 +11,7 @@ import { DOCUMENT } from '@angular/common';
     providers: [TinTween]
 })
 
-export class ScrolloDirective {
+export class ScrolloDirective implements OnInit {
 
     @Input() tweenBegin: string;
     @Input() tweenEnd: string;
@@ -25,29 +25,29 @@ export class ScrolloDirective {
     @Input() tweenOnProgress: Function;
     @Input() tweenDuration: number;
 
-    private begin = this.tweenBegin;
-    private end = this.tweenEnd;
-    private from = this.tweenFrom;
-    private to = this.tweenTo;
-    private easing = this.tweenEasing;
-    private onBegin = this.tweenOnBegin;
-    private onEnd = this.tweenOnEnd;
-    private onReverseBegin = this.tweenOnBegin;
-    private onReverseEnd = this.tweenOnEnd;
-    private onProgress = this.tweenOnProgress;
-    private duration = this.tweenDuration;
+    private begin: number;
+    private end: number;
+    private from: string;
+    private to: string;
+    private easing: string;
+    private onBegin: Function;
+    private onEnd: Function;
+    private onReverseBegin: Function;
+    private onReverseEnd: Function;
+    private onProgress: Function;
+    private duration: number;
 
-    private el;
-    private tag;
-    private beginParsed;
-    private endParsed;
-    private started = 0;
-    private completed = 0;
-    private revStarted = 0;
-    private revCompleted = 0;
+    private el: ElementRef;
+    private tag: string;
+    private beginPx: number;
+    private endPx: number;
+    private started: number = 0;
+    private completed: number = 0;
+    private revStarted: number = 0;
+    private revCompleted: number = 0;
 
     private errors = {
-        'error': 'Circus Scroll Settings Error.',
+        'error': 'ngx-scrollo Settings Error.',
         'formToDontMatch': 'tweenFrom and tweenTo values don\'t match.',
         'beginEndDontMatch': 'tweenBegin and tweenEnd values don\'t match.'
     };
@@ -67,23 +67,33 @@ export class ScrolloDirective {
         }
     }
 
+    ngOnInit() {
+        this.begin = parseInt(this.tweenBegin);
+        this.end = parseInt(this.tweenEnd);
+        this.from = this.tweenFrom;
+        this.to = this.tweenTo;
+        this.easing = this.tweenEasing;
+        this.onBegin = this.tweenOnBegin;
+        this.onEnd = this.tweenOnEnd;
+        this.onReverseBegin = this.tweenOnBegin;
+        this.onReverseEnd = this.tweenOnEnd;
+        this.onProgress = this.tweenOnProgress;
+        this.duration = this.tweenDuration;
+    }
+    
+
     @HostListener('click', ['$event']) private onClick(event: Event) {
         if (this.tag === 'A') {
             event.preventDefault();
             const href = this.el.nativeElement.href;
+
             if (href.indexOf('#') !== -1) {
 
                 const anchorId: string = href.split('#')[1];
                 const anchor: HTMLElement = document.getElementById(anchorId);
                 const anchorOffset: any = this.offset(anchor);
                 const currentScrollTop: number = document.documentElement.scrollTop || document.body.scrollTop;
-                let body: HTMLElement;
-
-                if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-                    body = document.documentElement;
-                } else {
-                    body = document.body;
-                }
+                let body: HTMLElement = document.documentElement;
 
                 this.tinTween.tween({
                     'element': body,
@@ -99,46 +109,43 @@ export class ScrolloDirective {
         }
     }
 
-    @HostListener('window:scroll', []) private onscroll(el) {
+    @HostListener('window:scroll', []) private onscroll() {
 
         if (this.begin !== undefined) {
 
             if (this.end === undefined) {
                 this.end = this.begin;
-            }
+            }           
 
-            // Parse 'begin' and end 'values'
+            // Viepor height
             const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-            const beginVal = parseInt(this.begin, 10);
-            const endVal = parseInt(this.end, 10);
-            const beginUnit = this.begin.toString().split(beginVal.toString()).join('');
-            const endUnit = this.end.toString().split(endVal.toString()).join('');
+
             const elOffset = this.offset(this.el.nativeElement);
+            let scrollTop = window.scrollY;
+            let scrollHeight = document.documentElement.scrollHeight;
 
-            if (beginUnit !== endUnit) {
-                console.error(this.errors.error);
-                console.error(this.errors.beginEndDontMatch);
-                console.error(this.el);
-                return;
-            }
+            let scrollProgress = scrollTop / (scrollHeight -vh);
+            let scrollTopParsed = scrollHeight * scrollProgress;
 
-            if (beginUnit === 'vh' && endUnit === 'vh') {
-                if (elOffset.top > vh) {
-                    this.beginParsed = ((beginVal / 100) * vh) + elOffset.top - vh;
-                    this.endParsed = ((endVal / 100) * vh) + elOffset.top - vh;
-                } else {
-                    this.beginParsed = (beginVal / 100) * vh;
-                    this.endParsed = (endVal / 100) * vh;
-                }
+            let p: number;
 
+            if (elOffset.top > vh) {
+                this.beginPx = (((this.begin / 100) * vh) + elOffset.top) - vh;
+                this.endPx = (((this.end / 100) * vh) + elOffset.top + elOffset.height) - vh;
             } else {
-                this.beginParsed = beginVal;
-                this.endParsed = endVal;
+                this.beginPx = (this.begin / 100) * vh;
+                this.endPx = (this.end / 100) * vh;            
             }
 
+            console.log({
+                begin: this.beginPx,
+                end: this.endPx,
+                scroll: scrollTopParsed,
+                vh: vh
+            });
 
-            const scrollTop = window.scrollY;
-            let p = (scrollTop - this.beginParsed) / (this.endParsed - this.beginParsed); // progress
+            p = 1 - (this.endPx - scrollTopParsed) / (this.endPx - this.beginPx); 
+            
 
             if (p < 1) {
                 if (this.completed > 0) {
@@ -178,7 +185,6 @@ export class ScrolloDirective {
                     console.error(this.el);
                     return;
                 }
-
                 //
 
                 Object.keys(this.to).forEach(function (prop, i) {
@@ -199,7 +205,7 @@ export class ScrolloDirective {
                     const e = that.parseValue(value); // End
                     const b = that.parseValue(that.from[prop]); // Begin;
                     const c = e - b; // Change
-                    const d = that.endParsed - that.beginParsed; // Duration
+                    const d = that.endPx - that.beginPx; // Duration
                     let t = p * d; // Time,
                     let unit = false; // px for example
 
@@ -247,7 +253,7 @@ export class ScrolloDirective {
             // onBegin
 
             if (this.started === 1) {
-                this.addClass(that.el.nativeElement, 'tinTweenonBegin');
+                this.addClass(that.el.nativeElement, 'scrolloTweenOnBegin');
                 if (this.onBegin !== undefined) {
                     this.onBegin(this.el);
                 }
@@ -257,7 +263,7 @@ export class ScrolloDirective {
 
             if (this.completed === 1) {
                 p = 1;
-                this.addClass(that.el.nativeElement, 'tinTweenonEnd');
+                this.addClass(that.el.nativeElement, 'scrolloTweenOnEnd');
                 if (this.onEnd !== undefined) {
                     this.onEnd(this.el);
                 }
@@ -266,7 +272,7 @@ export class ScrolloDirective {
             // onReverseBegin
 
             if (this.revStarted === 1) {
-                this.removeClass(that.el.nativeElement, 'tinTweenonEnd');
+                this.removeClass(that.el.nativeElement, 'scrolloTweenOnEnd');
                 if (this.onReverseBegin !== undefined) {
                     this.onReverseBegin(this.el);
                 }
@@ -277,7 +283,7 @@ export class ScrolloDirective {
 
             if (this.revCompleted === 1) {
                 p = 0;
-                this.removeClass(that.el.nativeElement, 'tinTweenonBegin');
+                this.removeClass(that.el.nativeElement, 'scrolloTweenOnBegin');
                 if (this.onReverseEnd !== undefined) {
                     this.onReverseEnd(this.el);
                 }
@@ -288,14 +294,18 @@ export class ScrolloDirective {
             // onProgress
 
             if (p >= 0 && p <= 1) {
+                // console.log(p);
                 if (this.onProgress !== undefined) {
-                    this.onProgress(this.el, p);
+                    this.onProgress({
+                        progress: p,
+                        element: this.el
+                    });
                 }
             }
         }
     }
 
-    parseValue(val) {
+    parseValue(val: string) {
         if (val.indexOf('.') > 0) {
             return parseFloat(val);
         } else {
@@ -305,16 +315,17 @@ export class ScrolloDirective {
 
     // offset
 
-    isWindow(obj) {
+    isWindow(obj: { window: any; }) {
         return obj != null && obj === obj.window;
     }
-    getWindow(elem) {
+    getWindow(elem: any) {
         return this.isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
     }
-    offset(elem) {
+    offset(elem: HTMLElement) {
         
-        let docElem, win,
-            box = { top: 0, left: 0 };
+        let docElem: HTMLElement,
+            win: any,
+            box: any;
 
         const doc = elem.ownerDocument;
 
@@ -326,7 +337,10 @@ export class ScrolloDirective {
         win = this.getWindow(doc);
         return {
             top: box.top + win.pageYOffset - docElem.clientTop,
-            left: box.left + win.pageXOffset - docElem.clientLeft
+            left: box.left + win.pageXOffset - docElem.clientLeft,
+            height: box.height,
+            width: box.width
+
         };
     }
 
@@ -334,7 +348,7 @@ export class ScrolloDirective {
 
     // Thanks to: http://jaketrent.com/post/addremove-classes-raw-javascript/
 
-    hasClass(el, className) {
+    hasClass(el: HTMLElement, className: string) {
         if (el.classList) {
             return el.classList.contains(className);
         } else {
@@ -342,7 +356,7 @@ export class ScrolloDirective {
         }
     }
 
-    addClass(el, className) {
+    addClass(el: HTMLElement, className: string) {
         if (el.classList) {
             el.classList.add(className);
         } else if (!this.hasClass(el, className)) {
@@ -350,7 +364,7 @@ export class ScrolloDirective {
         }
     }
 
-    removeClass(el, className) {
+    removeClass(el: HTMLElement, className: string) {
         if (el.classList) {
             el.classList.remove(className);
         } else if (this.hasClass(el, className)) {

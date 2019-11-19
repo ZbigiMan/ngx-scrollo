@@ -1,2 +1,59 @@
-<a href="#example1" class="nav-link" ngx-scrollo>Example 1</a>
-<h2 id="example1"></h2>
+<section 
+    class="section section__one"
+    
+>
+  <div class="element">
+      <h1 
+        class="title"
+        ngx-scrollo
+        [tweenBegin]="0"
+        [tweenEnd]="99"
+        [tweenFrom]="{letterSpacing : '0vw', fontSize : '2em', opacity: '1'}"
+        [tweenTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
+        [tweenOnProgress]="anim1OnProgress"
+      >
+          Section One
+      </h1>
+  </div>
+</section>
+<section class="section section__two">
+    <div class="element">
+        <!-- <h1
+          class="title"
+          ngx-scrollo
+          [tweenBegin]="0"
+          [tweenEnd]="99"
+          [tweenFrom]="{letterSpacing : '6vw', fontSize : '0em'}"
+          [tweenTo]="{letterSpacing : '0vw', fontSize : '2em'}"
+          [tweenOnProgress]="anim2OnProgress"
+          >
+          Section Two
+        </h1> -->
+    </div>
+</section >
+<section class="section flex">
+    <div class="box">
+        <h2>Box 1</h2>
+    </div>
+    <div class="box">
+        <h2>Box 2</h2>
+    </div>
+    <div class="box">
+        <h2>Box 3</h2>
+    </div>
+    <div class="box">
+        <h2>Box 4</h2>
+    </div>
+    <div class="box">
+        <h2>Box 5</h2>
+    </div>
+    <div class="box">
+        <h2>Box 6</h2>
+    </div>
+    <div class="box">
+        <h2>Box 7</h2>
+    </div>
+    <div class="box">
+        <h2>Box 8</h2>
+    </div>
+</section >
