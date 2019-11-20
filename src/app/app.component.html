@@ -1,10 +1,9 @@
 <div class="background"></div>
-<div class="main">
+<main class="main">
     <section
         class="section section__one"
-
     >
-    <div class="element">
+    <div class="hero">
         <h1
             class="title"
             ngx-scrollo
@@ -12,6 +11,7 @@
             [tweenEnd]="100"
             [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25em', opacity: '1'}"
             [tweenTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
+            [tweenEasing]="'easeOutQuad'"
             [tweenOnProgress]="anim1OnProgress"
         >
             ngx-scrollo
@@ -19,32 +19,34 @@
     </div>
     </section>
     <section class="section section__two">
-        <div class="element">
-            <h1
-            class="title"
-            ngx-scrollo
-            [tweenBegin]="10"
-            [tweenEnd]="40"
-            [tweenFrom]="{letterSpacing : '-0.1vw', fontSize : '0em', opacity: '0'}"
-            [tweenTo]="{letterSpacing : '0.25vw', fontSize : '2.25em', opacity: '1'}"
-            [tweenOnProgress]="anim2OnProgress"
-            >
-            Scroll animations
-            </h1>
+        <div class="hero">
             <h2
             class="title"
             ngx-scrollo
-            [tweenBegin]="30"
-            [tweenEnd]="60"
+            [tweenBegin]="20"
+            [tweenEnd]="75"
             [tweenFrom]="{letterSpacing : '-0.15vw', fontSize : '0em', opacity: '0'}"
-            [tweenTo]="{letterSpacing : '0.25vw', fontSize : '1.75em', opacity: '1'}"
+            [tweenTo]="{letterSpacing : '0vw', fontSize : '1.75em', opacity: '1'}"
+            [tweenEasing]="'easeOutBack'"
+            [tweenOnProgress]="anim2OnProgress"
+            >
+            Scroll animations
+            </h2>
+            <h2
+            class="title"
+            ngx-scrollo
+            [tweenBegin]="40"
+            [tweenEnd]="80"
+            [tweenFrom]="{letterSpacing : '-0.15vw', fontSize : '0em', opacity: '0'}"
+            [tweenTo]="{letterSpacing : '0vw', fontSize : '1.75em', opacity: '1'}"
+            [tweenEasing]="'easeOutBack'"
             [tweenOnProgress]="anim2OnProgress"
             >
             made simple
             </h2>
         </div>
     </section >
-    <section class="section flex">
+    <section class="section">
         <div class="box">
             <h2>Box 1</h2>
         </div>
@@ -70,4 +72,4 @@
             <h2>Box 8</h2>
         </div>
     </section >
-</div>
+</main>
