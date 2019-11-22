@@ -12,7 +12,10 @@
             [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25em', opacity: '1'}"
             [tweenTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
             [tweenEasing]="'easeOutQuad'"
-            [tweenOnProgress]="anim1OnProgress"
+            [tweenOnBegin]="animOneOnBegin"
+            [tweenOnEnd]="animOneOnEnd"
+            [tweenOnReverseBegin]="animOneReverseBegin"
+            [tweenOnProgress]="animOneOnProgress"
         >
             ngx-scrollo
         </h1>

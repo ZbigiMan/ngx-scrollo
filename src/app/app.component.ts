@@ -7,8 +7,20 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
-
-  public anim1OnProgress(data: Object) {
+  
+  public animOneOnBegin(data: Object) {
+    console.log('anim one on begin', data);
+  }
+  
+  public animOneOnEnd(data: Object) {
+    console.log('anim one on end', data);
+  }
+  
+  public animOneReverseBegin(data: Object) {
+    console.log('anim one on reverse begin', data);
+  }
+  
+  public animOneOnProgress(data: Object) {
     // console.log(data);
   }
 
