@@ -14,7 +14,8 @@
             [tweenEasing]="'easeOutQuad'"
             [tweenOnBegin]="animOneOnBegin"
             [tweenOnEnd]="animOneOnEnd"
-            [tweenOnReverseBegin]="animOneReverseBegin"
+            [tweenOnReverseBegin]="animOneOnReverseBegin"
+            [tweenOnReverseEnd]="animOneOnReverseEnd"
             [tweenOnProgress]="animOneOnProgress"
         >
             ngx-scrollo
@@ -46,6 +47,17 @@
             [tweenOnProgress]="anim2OnProgress"
             >
             made simple
+            </h2>
+            <h2
+            class="title"
+            ngx-scrollo
+            [tweenBegin]="50"
+            [tweenEnd]="90"
+            [tweenFrom]="{letterSpacing : '-0.15vw', fontSize : '0em', opacity: '0'}"
+            [tweenTo]="{letterSpacing : '0vw', fontSize : '1.75em', opacity: '1'}"
+            [tweenEasing]="'easeOutBack'"
+            >
+            and responsive
             </h2>
         </div>
     </section >

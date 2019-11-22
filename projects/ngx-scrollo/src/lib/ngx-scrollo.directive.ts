@@ -22,7 +22,7 @@ export class ScrolloDirective implements OnInit {
     @Input() tweenOnBegin: Function;
     @Input() tweenOnEnd: Function;
     @Input() tweenOnReverseBegin: Function;
-    @Input() tweenonReverseEnd: Function;
+    @Input() tweenOnReverseEnd: Function;
     @Input() tweenOnProgress: Function;
     @Input() tweenDuration: number;
 
@@ -79,8 +79,8 @@ export class ScrolloDirective implements OnInit {
         this.easing = this.tweenEasing;
         this.onBegin = this.tweenOnBegin;
         this.onEnd = this.tweenOnEnd;
-        this.onReverseBegin = this.tweenOnBegin;
-        this.onReverseEnd = this.tweenOnEnd;
+        this.onReverseBegin = this.tweenOnReverseBegin;
+        this.onReverseEnd = this.tweenOnReverseEnd;
         this.onProgress = this.tweenOnProgress;
         this.duration = this.tweenDuration;
 
@@ -138,11 +138,8 @@ export class ScrolloDirective implements OnInit {
         // p = 1 - (this.endParsed - this.scrollTopParsed) / (this.endParsed - this.beginParsed);
         this.tweenPogress = (this.scrollTop - this.beginParsed) / (this.endParsed - this.beginParsed);
 
-
-        if (this.tweenPogress < 1) {
-            if (this.completed > 0) {
-                this.revStarted++;
-            }
+        if (this.tweenPogress <= 1 && this.completed > 0) {
+            this.revStarted++;
             this.completed = 0;
         }
 
@@ -151,10 +148,8 @@ export class ScrolloDirective implements OnInit {
             this.revStarted = 0;
         }
 
-        if (this.tweenPogress <= 0) {
-            if (this.started > 0) {
-                this.revCompleted++;
-            }
+        if (this.tweenPogress <= 0 && this.started > 0) {
+            this.revCompleted++;
             this.started = 0;
         }
 
