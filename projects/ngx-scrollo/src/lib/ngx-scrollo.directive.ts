@@ -74,7 +74,6 @@ export class ScrolloDirective implements OnInit {
     ngOnInit() {
         this.begin = parseInt(this.tweenBegin, 10) || null;
         this.end = parseInt(this.tweenEnd, 10) || null;
-        console.log(this.end);
         this.from = this.tweenFrom;
         this.to = this.tweenTo;
         this.easing = this.tweenEasing;
@@ -87,6 +86,10 @@ export class ScrolloDirective implements OnInit {
 
         this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
         this.elementOffset = this.offset(this.el.nativeElement);
+
+        if (!this.end) {
+            this.end = this.begin;
+        }
 
         if (this.elementOffset.top > this.vh) {
             this.beginParsed = (((this.begin / 100) * this.vh) + this.elementOffset.top) - this.vh;
@@ -130,13 +133,8 @@ export class ScrolloDirective implements OnInit {
             return;
         }
 
-        if (!this.end) {
-            this.end = this.begin;
-        }
-        
         this.scrollTop = window.scrollY;
 
-        // p = 1 - (this.endParsed - this.scrollTopParsed) / (this.endParsed - this.beginParsed);
         this.tweenPogress = (this.scrollTop - this.beginParsed) / (this.endParsed - this.beginParsed);
 
         if (this.tweenPogress <= 1 && this.completed > 0) {
