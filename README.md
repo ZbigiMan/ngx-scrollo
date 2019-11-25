@@ -75,3 +75,47 @@ example:
 
 `tweenOnProgress`
 
+#### tweenEasing property:
+
+ngx-sxrollo use jQuery Easing v1.3 plugin functions - http://gsgd.co.uk/sandbox/jquery/easing/ under BSD Licence
+
+##### Easing types:
+* linear
+* swing
+* easeInQuad
+* easeOutQuad
+* easeInOutQuad
+* easeInCubic
+* easeOutCubic
+* easeInOutCubic
+* easeInQuart
+* easeInOutQuart
+* easeInQuint
+* easeOutQuint
+* easeInOutQuint
+* easeInSine
+* easeOutSine
+* easeInOutSine
+* easeInExpo
+* easeOutExpo
+* easeInOutExpo
+* easeInCirc
+* easeOutCirc
+* easeInOutCirc
+* easeInElastic
+* easeOutElastic
+* easeInOutElastic
+* easeInBack
+* easeOutBack
+* easeInOutBack
+* easeInBounce
+* easeOutBounce
+* easeInOutBounce
+
+#### Licence
+
+ngx-scrollo:
+* MIT
+
+jQuery Easing v1.3
+* BSD
