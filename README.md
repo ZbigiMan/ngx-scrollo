@@ -1,18 +1,23 @@
 # ngx-scrollo
 
 ## Angular 2x directive
-### Scroll animations made simple and responsive
+## Scroll animations made simple and responsive
+
+# How to use
 
 ### tweenBegin and tweenEnd properties
 `tweenBegin` - Number from 1 to 100, relative to viewport height
+
 `tweenEnd` - Number from 1 to 100, relative to viewport height
 
 ### Inline style properties animation
 
 `tweenFrom` - start CSS properties
+
 `tweenTo` - end CSS properties
 
-```
+example:
+```html
 <h1
   class="title"
   ngx-scrollo
@@ -33,9 +38,11 @@
 
 ### Animate using CSS clasess
 `scrolloTweenOnBegin` - class added on scroll tween begin
+
 `scrolloTweenOnEnd` - class added on scroll tween end
 
-```
+example:
+```html
 <div 
   class="box"
   ngx-scrollo
@@ -43,7 +50,7 @@
 >
 ```
 
-```
+```css
 .box {
   transform: perspective(146rem) rotateX(10deg) rotateY(70deg) scale(0.5);
   transition: all 1s ease;
@@ -54,4 +61,17 @@
   }
 }
 ```
+
+### Callback functions
+`tweenOnBegin`
+
+`tweenOnEnd`
+
+`tweenOnReverseBegin`
+
+`tweenOnReverseBegin`
+
+`tweenOnReverseEnd`
+
+`tweenOnProgress`
 
