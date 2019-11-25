@@ -1,27 +1,57 @@
-# NgxScrolloProject
+# ngx-scrollo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+## Angular 2x directive
+### Scroll animations made simple and responsive
 
-## Development server
+### tweenBegin and tweenEnd properties
+`tweenBegin` - Number from 1 to 100, relative to viewport height
+`tweenEnd` - Number from 1 to 100, relative to viewport height
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Inline style properties animation
 
-## Code scaffolding
+`tweenFrom` - start CSS properties
+`tweenTo` - end CSS properties
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+<h1
+  class="title"
+  ngx-scrollo
+  [tweenBegin]="1"
+  [tweenEnd]="100"
+  [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25em', opacity: '1'}"
+  [tweenTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
+  [tweenEasing]="'easeOutQuad'"
+  [tweenOnBegin]="animOneOnBegin"
+  [tweenOnEnd]="animOneOnEnd"
+  [tweenOnReverseBegin]="animOneOnReverseBegin"
+  [tweenOnReverseEnd]="animOneOnReverseEnd"
+  [tweenOnProgress]="animOneOnProgress"
+>
+  ngx-scrollo
+</h1>
+```
 
-## Build
+### Animate using CSS clasess
+`scrolloTweenOnBegin` - class added on scroll tween begin
+`scrolloTweenOnEnd` - class added on scroll tween end
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```
+<div 
+  class="box"
+  ngx-scrollo
+  [tweenBegin]="50"
+>
+```
 
-## Running unit tests
+```
+.box {
+  transform: perspective(146rem) rotateX(10deg) rotateY(70deg) scale(0.5);
+  transition: all 1s ease;
+        
+  &.scrolloTweenOnBegin {
+  opacity: 1;
+  transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1);
+  }
+}
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
