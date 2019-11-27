@@ -77,7 +77,9 @@ example:
 
 #### tweenEasing property:
 
-ngx-sxrollo use jQuery Easing v1.3 plugin functions - http://gsgd.co.uk/sandbox/jquery/easing/ under BSD Licence
+ngx-sxrollo implements jQuery Easing v1.3 plugin functions* by gesheo - https://gist.github.com/gesheo/6194940 under BSD Licence.
+
+*&nbsp;Only gesheo easing functions are used, ngx-scrollo is undepended of jQuery lib.
 
 ##### Easing types:
 * linear
