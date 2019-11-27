@@ -79,7 +79,7 @@ example:
 
 ngx-sxrollo implements jQuery Easing v1.3 plugin functions* by gesheo - https://gist.github.com/gesheo/6194940 under BSD Licence.
 
-*&nbsp;Only gesheo easing functions are used, ngx-scrollo is undepended of jQuery lib.
+*&nbsp;Only gesheo's easing functions are used, ngx-scrollo is undepended of jQuery lib.
 
 ##### Easing types:
 * linear
