@@ -1,4 +1,28 @@
+<span id="top"></span>
 <div class="background"></div>
+<nav class="navbar">
+  <div class="scroll-to-button__container">
+    <a
+      class="scroll-to-button scroll-to-button__bottom"
+      href="#bottom"
+      ngx-scrollo
+      [tweenDuration]="10000"
+      [tweenEasing]="'linear'"
+      [tweenBegin]="70"   
+    >
+    </a>
+    <a
+      class="scroll-to-button scroll-to-button__top"
+      href="#top"
+      ngx-scrollo
+      [tweenDuration]="10000"
+      [tweenEasing]="'linear'"
+      [tweenBegin]="70"
+      [tweenEnd]="100"    
+    >
+    </a>
+</div>
+</nav>
 <main class="main">
   <section class="section section__one">
     <div class="hero">
@@ -117,4 +141,5 @@
       <h2>Box 8</h2>
     </div>
   </section>
+  <span id="bottom"></span>
 </main>
