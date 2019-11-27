@@ -1,27 +1,121 @@
-# NgxScrolloProject
+# ngx-scrollo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+## Angular 2x directive
+## Scroll animations made simple and responsive
 
-## Development server
+# How to use
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### tweenBegin and tweenEnd properties
+`tweenBegin` - Number from 1 to 100, relative to viewport height
 
-## Code scaffolding
+`tweenEnd` - Number from 1 to 100, relative to viewport height
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Inline style properties animation
 
-## Build
+`tweenFrom` - start CSS properties
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+`tweenTo` - end CSS properties
 
-## Running unit tests
+example:
+```html
+<h1
+  class="title"
+  ngx-scrollo
+  [tweenBegin]="1"
+  [tweenEnd]="100"
+  [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25em', opacity: '1'}"
+  [tweenTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
+  [tweenEasing]="'easeOutQuad'"
+  [tweenOnBegin]="animOneOnBegin"
+  [tweenOnEnd]="animOneOnEnd"
+  [tweenOnReverseBegin]="animOneOnReverseBegin"
+  [tweenOnReverseEnd]="animOneOnReverseEnd"
+  [tweenOnProgress]="animOneOnProgress"
+>
+  ngx-scrollo
+</h1>
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Animate using CSS clasess
+`scrolloTweenOnBegin` - class added on scroll tween begin
 
-## Running end-to-end tests
+`scrolloTweenOnEnd` - class added on scroll tween end
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+example:
+```html
+<div 
+  class="box"
+  ngx-scrollo
+  [tweenBegin]="50"
+>
+```
 
-## Further help
+```css
+.box {
+  transform: perspective(146rem) rotateX(10deg) rotateY(70deg) scale(0.5);
+  transition: all 1s ease;
+        
+  &.scrolloTweenOnBegin {
+  opacity: 1;
+  transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1);
+  }
+}
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Callback functions
+`tweenOnBegin`
+
+`tweenOnEnd`
+
+`tweenOnReverseBegin`
+
+`tweenOnReverseBegin`
+
+`tweenOnReverseEnd`
+
+`tweenOnProgress`
+
+#### tweenEasing property:
+
+ngx-sxrollo use jQuery Easing v1.3 plugin functions - http://gsgd.co.uk/sandbox/jquery/easing/ under BSD Licence
+
+##### Easing types:
+* linear
+* swing
+* easeInQuad
+* easeOutQuad
+* easeInOutQuad
+* easeInCubic
+* easeOutCubic
+* easeInOutCubic
+* easeInQuart
+* easeInOutQuart
+* easeInQuint
+* easeOutQuint
+* easeInOutQuint
+* easeInSine
+* easeOutSine
+* easeInOutSine
+* easeInExpo
+* easeOutExpo
+* easeInOutExpo
+* easeInCirc
+* easeOutCirc
+* easeInOutCirc
+* easeInElastic
+* easeOutElastic
+* easeInOutElastic
+* easeInBack
+* easeOutBack
+* easeInOutBack
+* easeInBounce
+* easeOutBounce
+* easeInOutBounce
+
+#### Licence
+
+ngx-scrollo:
+* MIT
+
+jQuery Easing v1.3
+* BSD
