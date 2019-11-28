@@ -3,11 +3,11 @@
 ### Angular 2x directive
 ### Scroll animations made simple and responsive
 
-### Install
+### Install:
 ```bash
 npm i ngx-scrollo
 ```
-### import
+### Import:
 ```javascript
 import { ScrolloModule } from 'ngx-scrollo';
 
@@ -21,14 +21,14 @@ import { ScrolloModule } from 'ngx-scrollo';
 })
 ```
 
-## Use
+## Use:
 
-### tweenBegin and tweenEnd properties
+### The `tweenBegin` and `tweenEnd` properties:
 `tweenBegin` - Number from 1 to 100, relative to viewport height
 
 `tweenEnd` - Number from 1 to 100, relative to viewport height
 
-### Inline style properties animation
+### Inline style properties animation:
 
 `tweenFrom` - start CSS properties
 
@@ -54,7 +54,7 @@ example:
 </h1>
 ```
 
-### Animate using CSS clasess
+### Animate using CSS clasess:
 `scrolloTweenOnBegin` - class added on scroll tween begin
 
 `scrolloTweenOnEnd` - class added on scroll tween end
@@ -80,7 +80,7 @@ example:
 }
 ```
 
-### Smooth scroll to anchor
+### Smooth scroll to anchor:
 ```html
 <a
   href="#bottom"
@@ -104,13 +104,13 @@ example:
 
 `tweenOnProgress`
 
-#### tweenEasing property:
+### The `tweenEasing` property:
 
 ngx-sxrollo implements jQuery Easing v1.3 plugin functions* by gesheo - https://gist.github.com/gesheo/6194940 under BSD Licence.
 
 *&nbsp;Only gesheo's easing functions are used, ngx-scrollo is undepended of jQuery lib.
 
-##### Easing types:
+### Easing types:
 * linear
 * swing
 * easeInQuad
@@ -143,7 +143,7 @@ ngx-sxrollo implements jQuery Easing v1.3 plugin functions* by gesheo - https://
 * easeOutBounce
 * easeInOutBounce
 
-#### Licence
+### Licence:
 
 ngx-scrollo:
 * MIT
