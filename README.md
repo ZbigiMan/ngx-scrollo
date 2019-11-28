@@ -21,7 +21,7 @@ import { ScrolloModule } from 'ngx-scrollo';
 })
 ```
 
-## How to use
+## Use
 
 ### tweenBegin and tweenEnd properties
 `tweenBegin` - Number from 1 to 100, relative to viewport height
