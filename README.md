@@ -81,6 +81,9 @@ example:
 ```
 
 ### Smooth scroll to anchor:
+Works only on html A tag.
+
+example:
 ```html
 <a
   href="#bottom"
@@ -91,7 +94,7 @@ example:
 </a>
 ```
 
-### Callback functions
+### Callback functions:
 `tweenOnBegin`
 
 `tweenOnEnd`
