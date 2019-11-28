@@ -1,9 +1,27 @@
 # ngx-scrollo
 
-## Angular 2x directive
-## Scroll animations made simple and responsive
+### Angular 2x directive
+### Scroll animations made simple and responsive
 
-# How to use
+### Install
+```bash
+npm i ngx-scrollo
+```
+### import
+```javascript
+import { ScrolloModule } from 'ngx-scrollo';
+
+@NgModule({
+    (...)
+    imports: [
+        ScrolloModule,
+        (...)
+    ],
+    (...)
+})
+```
+
+## How to use
 
 ### tweenBegin and tweenEnd properties
 `tweenBegin` - Number from 1 to 100, relative to viewport height
@@ -60,6 +78,17 @@ example:
   transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1);
   }
 }
+```
+
+### Smooth scroll to anchor
+```html
+<a
+  href="#bottom"
+  ngx-scrollo
+  [tweenDuration]="10000"
+  [tweenEasing]="'linear'"
+>
+</a>
 ```
 
 ### Callback functions
