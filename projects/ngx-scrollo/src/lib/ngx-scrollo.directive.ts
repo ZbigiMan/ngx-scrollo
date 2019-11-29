@@ -82,7 +82,7 @@ export class ScrolloDirective implements OnInit {
         this.onReverseBegin = this.tweenOnReverseBegin;
         this.onReverseEnd = this.tweenOnReverseEnd;
         this.onProgress = this.tweenOnProgress;
-        this.duration = this.tweenDuration;
+        this.duration = this.tweenDuration || 1500;
 
         this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
         this.elementOffset = this.offset(this.el.nativeElement);
