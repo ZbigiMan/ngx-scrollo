@@ -1,6 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
 
-import { ScrolloModule } from 'projects/ngx-scrollo/src/lib/ngx-scrollo.module';
+import { ScrolloModule } from 'ngx-scrollo';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {

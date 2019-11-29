@@ -8,23 +8,28 @@
       ngx-scrollo
       [tweenDuration]="10000"
       [tweenEasing]="'linear'"
-      [tweenBegin]="70"   
+      [tweenBegin]="70"
+      [tweenEnd]="100"
     >
     </a>
     <a
       class="scroll-to-button scroll-to-button__top"
       href="#top"
       ngx-scrollo
-      [tweenDuration]="10000"
+      [tweenDuration]="5000"
       [tweenEasing]="'linear'"
       [tweenBegin]="70"
-      [tweenEnd]="100"    
+      [tweenEnd]="100"
     >
     </a>
 </div>
 </nav>
 <main class="main">
-  <section class="section section__one">
+  <section
+    ngx-scrollo
+    [tweenBegin]="1"
+    [tweenEnd]="100"
+    class="section section__one">
     <div class="hero">
       <h1
         class="title"
@@ -84,7 +89,7 @@
     </div>
   </section>
   <section class="section section__tree">
-    <div 
+    <div
       class="box"
       ngx-scrollo
       [tweenBegin]="50"
@@ -139,6 +144,32 @@
       [tweenBegin]="50"
     >
       <h2>Box 8</h2>
+    </div>
+  </section>
+  <section class="section section__code">
+    <pre
+      class="prettyprint lang-js"
+      ngx-scrollo
+      [tweenBegin]="40"
+    >
+      {{ codeExamples.install}}
+    </pre>
+    <pre
+      class="prettyprint lang-js"
+      ngx-scrollo
+      [tweenBegin]="60"
+    >
+        {{ codeExamples.import }}
+      </pre>
+    <pre
+      class="prettyprint lang-html"
+      ngx-scrollo
+      [tweenBegin]="70"
+    >
+      {{ codeExamples.html01}}
+    </pre>
+    <div class="link">
+        <a href="https://github.com/ZbigiMan/ngx-scrollo" target="_blank">see more...</a>
     </div>
   </section>
   <span id="bottom"></span>

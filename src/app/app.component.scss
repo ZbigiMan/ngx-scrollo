@@ -39,7 +39,7 @@
       height: 100vh;
 
       &.scrolloTweenOnEnd {
-        visibility: hidden;
+        display: none;
       }
     }
 
@@ -63,18 +63,49 @@
       box-shadow: inset 0 0 3em rgba(#000000, 0.15);
       margin: 1rem;
       padding: 2rem;
-      opacity: 0;  
- 
+      opacity: 0;
 
-      transform: perspective(146rem) rotateX(10deg) rotateY(70deg) scale(0.5);
+      transform: perspective(146rem) rotateX(10deg) rotateY(60deg) scale(0.7);
       transition: all 1s ease;
-        
+
       &.scrolloTweenOnBegin {
-       opacity: 1;
-       transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1);
+        opacity: 1;
+        transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1);
       }
     }
-  }  
+
+    &__code {
+      height: auto;
+      min-height: initial;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+
+      pre {
+        max-width: 650px;
+        opacity: 0;
+
+        transform: perspective(146rem) rotateX(10deg) rotateY(30deg) scale(0.7);
+        transition: all 1s ease;
+
+        &.scrolloTweenOnBegin {
+          opacity: 0.9;
+          transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1);
+        }
+
+        &.prettyprint {
+          padding: 1rem;
+          border-radius: 0;
+          border: 0 none;
+        }
+      }
+
+      .link {
+        padding-top: 2rem;
+      }
+
+    }
+  }
 }
 
 .navbar {
@@ -92,12 +123,15 @@
   background: black;
   opacity: 0.8;
 
-  &__container {
-    width: 16pt;
-    height: 16pt;
-  }
-
   .scroll-to-button {
+
+    &__container {
+      width: 16pt;
+      height: 16pt;
+      max-height: 16pt;
+      overflow: hidden;
+    }
+
     display: block;
     width: 16pt;
     height: 16pt;
@@ -105,10 +139,11 @@
     background: transparent;
     background-image: url("data:image/svg+xml,%3Csvg height='16pt' viewBox='0 0 512 512' width='16pt' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='m256 512c-68.378906 0-132.667969-26.628906-181.019531-74.980469-48.351563-48.351562-74.980469-112.640625-74.980469-181.019531s26.628906-132.667969 74.980469-181.019531c48.351562-48.351563 112.640625-74.980469 181.019531-74.980469s132.667969 26.628906 181.019531 74.980469c48.351563 48.351562 74.980469 112.640625 74.980469 181.019531s-26.628906 132.667969-74.980469 181.019531c-48.351562 48.351563-112.640625 74.980469-181.019531 74.980469zm0-472c-119.101562 0-216 96.898438-216 216s96.898438 216 216 216 216-96.898438 216-216-96.898438-216-216-216zm138.285156 182-28.285156-28.285156-110 110-110-110-28.285156 28.285156 138.285156 138.285156zm0 0'/%3E%3C/svg%3E");
     transition: all 0.4s ease;
+    opacity: 0.8;
     cursor: pointer;
 
     &:hover {
-      transform: scale(1.15);
+      opacity: 1;
     }
 
     &__bottom {
@@ -120,12 +155,12 @@
 
     &__top {
 
-      display: none;         
+      display: none;
 
       &:hover {
-        transform: scale(1.15) 
+        transform: scale(1.15)
       }
-      
+
       &.scrolloTweenOnBegin {
         display: block;
       }
@@ -133,6 +168,7 @@
       &.scrolloTweenOnEnd {
         transform: rotate(180deg);
       }
-    } 
+    }
   }
 }
+
