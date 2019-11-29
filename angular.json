@@ -23,7 +23,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/code-prettify/styles/sunburst.css",
+              "node_modules/code-prettify/loader/run_prettify.js"
             ],
             "scripts": []
           },

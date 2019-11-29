@@ -93,7 +93,7 @@ export class ScrolloDirective implements OnInit {
 
         if (this.elementOffset.top > this.vh) {
             this.beginParsed = (((this.begin / 100) * this.vh) + this.elementOffset.top) - this.vh;
-            this.endParsed = (((this.end / 100) * this.vh) + this.elementOffset.top + this.elementOffset.height) - this.vh;
+            this.endParsed = (((this.end / 100) * this.vh) + this.elementOffset.top) - this.vh;
         } else {
             this.beginParsed = (this.begin / 100) * this.vh;
             this.endParsed = (this.end / 100) * this.vh;
