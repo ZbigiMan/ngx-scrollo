@@ -1,0 +1,39 @@
+@import 'variables';
+
+@mixin z-index-x {
+  @for $i from 100 through 116 {
+    .z-index-#{$i} {
+      z-index: $i;
+    }
+  }
+}
+
+@mixin padding-x {
+  @for $i from 1 through 16 {
+    .padding-#{$i} {
+      padding: $i * $padding-step;
+    }
+  }
+}
+
+@mixin margin-x {
+  @for $i from 1 through 16 {
+    .margin-#{$i} {
+      margin: $i * $margin-step;
+    }
+  }
+}
+
+@mixin size-x {
+  @for $i from 1 through 16 {
+    .size-#{$i} {
+      width: $i * $icon-size-step;
+      height: $i * $icon-size-step;
+    }
+  }
+}
+
+@include z-index-x();
+@include padding-x();
+@include margin-x();
+@include size-x();

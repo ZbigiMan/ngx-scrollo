@@ -1,0 +1,57 @@
+.flex {
+  display: flex;
+
+  &.row {
+    flex-direction: row;
+  }
+
+  &.column {
+    flex-direction: column;
+  }
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
+
+  &.center {
+    justify-content: center;
+  }
+
+  &.middle {
+    align-items: center;
+  }
+}
+
+.fixed {
+  position: fixed;
+
+  &.top {
+    top: 0;
+  }
+
+  &.bottom {
+    bottom: 0;
+  }
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.text {
+    
+    &.center {
+        text-align: center;
+    }
+}
+
+.overflow {
+  
+  &__hidden {
+    overflow: hidden;
+  }
+}

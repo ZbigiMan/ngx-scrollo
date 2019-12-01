@@ -23,10 +23,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
+              "src/styles/styles.scss",
               "node_modules/code-prettify/styles/sunburst.css",
               "node_modules/code-prettify/loader/run_prettify.js"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles/"
+              ]
+            },
             "scripts": []
           },
           "configurations": {

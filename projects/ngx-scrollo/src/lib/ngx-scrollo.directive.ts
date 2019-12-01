@@ -135,6 +135,8 @@ export class ScrolloDirective implements OnInit {
 
         this.scrollTop = window.scrollY;
 
+        console.log(window.scrollY / (document.documentElement.scrollHeight - this.vh));
+
         this.tweenPogress = (this.scrollTop - this.beginParsed) / (this.endParsed - this.beginParsed);
 
         if (this.tweenPogress <= 1 && this.completed > 0) {

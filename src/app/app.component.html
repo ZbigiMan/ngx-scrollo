@@ -1,9 +1,9 @@
 <span id="top"></span>
-<div class="background"></div>
-<nav class="navbar">
-  <div class="scroll-to-button__container">
+<div class="container full-width full-height fixed top background"></div>
+<nav class="container full-width fixed bottom flex center middle z-index-100 navbar">
+  <div class="size-3 overflow__hidden">
     <a
-      class="scroll-to-button scroll-to-button__bottom"
+      class="icon size-3 chewron-circle-down scroll-down-bt absolute z-index-100"
       href="#bottom"
       ngx-scrollo
       [tweenDuration]="10000"
@@ -13,7 +13,7 @@
     >
     </a>
     <a
-      class="scroll-to-button scroll-to-button__top"
+      class="icon size-3 chewron-circle-up scroll-up-bt"
       href="#top"
       ngx-scrollo
       [tweenDuration]="5000"
@@ -24,20 +24,21 @@
     </a>
 </div>
 </nav>
-<main class="main">
+<main class="container absolute top full-width main">
   <section
+    class="container full-width full-height fixed top flex row center middle section__one"
     ngx-scrollo
     [tweenBegin]="1"
     [tweenEnd]="100"
-    class="section section__one">
-    <div class="hero">
+    >
+    <div class="text center">
       <h1
         class="title"
         ngx-scrollo
         [tweenBegin]="1"
         [tweenEnd]="100"
-        [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25em', opacity: '1'}"
-        [tweenTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
+        [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25rem', opacity: '1'}"
+        [tweenTo]="{letterSpacing : '6vw', fontSize : '0rem', opacity: '0'}"
         [tweenEasing]="'easeOutQuad'"
         [tweenOnBegin]="animOneOnBegin"
         [tweenOnEnd]="animOneOnEnd"
@@ -49,15 +50,15 @@
       </h1>
     </div>
   </section>
-  <section class="section section__two">
-    <div class="hero">
+  <section class="container full-width full-height flex row center middle section__two">
+    <div class="text center">
       <h2
         class="title"
         ngx-scrollo
-        [tweenBegin]="20"
-        [tweenEnd]="75"
-        [tweenFrom]="{letterSpacing : '-0.15vw', fontSize : '0em', opacity: '0'}"
-        [tweenTo]="{letterSpacing : '0vw', fontSize : '1.75em', opacity: '1'}"
+        [tweenBegin]="10"
+        [tweenEnd]="50"
+        [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
+        [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
         [tweenEasing]="'easeOutBack'"
         [tweenOnProgress]="anim2OnProgress"
       >
@@ -66,10 +67,10 @@
       <h2
         class="title"
         ngx-scrollo
-        [tweenBegin]="40"
-        [tweenEnd]="80"
-        [tweenFrom]="{letterSpacing : '-0.15vw', fontSize : '0em', opacity: '0'}"
-        [tweenTo]="{letterSpacing : '0vw', fontSize : '1.75em', opacity: '1'}"
+        [tweenBegin]="20"
+        [tweenEnd]="60"
+        [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
+        [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
         [tweenEasing]="'easeOutBack'"
         [tweenOnProgress]="anim2OnProgress"
       >
@@ -78,97 +79,97 @@
       <h2
         class="title"
         ngx-scrollo
-        [tweenBegin]="50"
-        [tweenEnd]="90"
-        [tweenFrom]="{letterSpacing : '-0.15vw', fontSize : '0em', opacity: '0'}"
-        [tweenTo]="{letterSpacing : '0vw', fontSize : '1.75em', opacity: '1'}"
+        [tweenBegin]="30"
+        [tweenEnd]="65"
+        [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
+        [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
         [tweenEasing]="'easeOutBack'"
       >
         and responsive
       </h2>
     </div>
   </section>
-  <section class="section section__tree">
+  <!-- <section class="container full-width full-height flex row wrap center middle padding-16 section__boxes">
     <div
-      class="box"
+      class="relative text center padding-6 margin-4 box"
       ngx-scrollo
-      [tweenBegin]="50"
+      [tweenBegin]="10"
     >
       <h2>Box 1</h2>
     </div>
     <div
-      class="box"
+      class="relative text center padding-6 margin-4 box"
       ngx-scrollo
-      [tweenBegin]="50"
+      [tweenBegin]="10"
     >
       <h2>Box 2</h2>
     </div>
     <div
-      class="box"
+      class="relative text center padding-6 margin-4 box"
       ngx-scrollo
-      [tweenBegin]="50"
+      [tweenBegin]="10"
     >
       <h2>Box 3</h2>
     </div>
     <div
-      class="box"
+      class="relative text center padding-6 margin-4 box"
       ngx-scrollo
-      [tweenBegin]="50"
+      [tweenBegin]="10"
     >
       <h2>Box 4</h2>
     </div>
     <div
-      class="box"
+      class="relative text center padding-6 margin-4 box"
       ngx-scrollo
-      [tweenBegin]="50"
+      [tweenBegin]="15"
     >
       <h2>Box 5</h2>
     </div>
     <div
-      class="box"
+      class="relative text center padding-6 margin-4 box"
       ngx-scrollo
-      [tweenBegin]="50"
+      [tweenBegin]="15"
     >
       <h2>Box 6</h2>
     </div>
     <div
-      class="box"
+      class="relative text center padding-6 margin-4 box"
       ngx-scrollo
-      [tweenBegin]="50"
+      [tweenBegin]="15"
     >
       <h2>Box 7</h2>
     </div>
     <div
-      class="box"
+      class="relative text center padding-6 margin-4 box"
       ngx-scrollo
-      [tweenBegin]="50"
+      [tweenBegin]="15"
     >
       <h2>Box 8</h2>
     </div>
-  </section>
-  <section class="section section__code">
+  </section> -->
+  <section class="container full-width section__code">
     <pre
       class="prettyprint lang-js"
       ngx-scrollo
-      [tweenBegin]="40"
+      [tweenBegin]="15"
     >
       {{ codeExamples.install}}
     </pre>
     <pre
       class="prettyprint lang-js"
       ngx-scrollo
-      [tweenBegin]="60"
+      [tweenBegin]="15"
     >
         {{ codeExamples.import }}
       </pre>
     <pre
       class="prettyprint lang-html"
       ngx-scrollo
-      [tweenBegin]="70"
+      [tweenBegin]="15"
     >
       {{ codeExamples.html01}}
     </pre>
-    <div class="link">
+    <div class="container full-width padding-8 text center link">
         <a href="https://github.com/ZbigiMan/ngx-scrollo" target="_blank">see more...</a>
     </div>
   </section>

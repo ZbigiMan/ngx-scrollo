@@ -11,39 +11,85 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~8.2.11",
-    "@angular/common": "~8.2.11",
-    "@angular/compiler": "~8.2.11",
-    "@angular/core": "~8.2.11",
-    "@angular/forms": "~8.2.11",
-    "@angular/platform-browser": "~8.2.11",
-    "@angular/platform-browser-dynamic": "~8.2.11",
-    "@angular/router": "~8.2.11",
-    "code-prettify": "^0.1.0",
-    "ngx-scrollo": "0.0.1",
-    "rxjs": "~6.4.0",
-    "tslib": "^1.10.0",
-    "zone.js": "~0.9.1"
+    "@angular-devkit/build-angular": "^0.803.19",
+    "@angular/animations": "^8.2.14",
+    "@angular/common": "^8.2.14",
+    "@angular/compiler": "^8.2.14",
+    "@angular/core": "^8.2.14",
+    "@angular/forms": "^8.2.14",
+    "@angular/http": "^7.2.15",
+    "@angular/platform-browser": "^8.2.14",
+    "@angular/platform-browser-dynamic": "^8.2.14",
+    "@angular/router": "^8.2.14",
+    "core-js": "^3.4.1",
+    "rxjs": "^6.5.3",
+    "zone.js": "^0.10.2",
+    "code-prettify": "~0.1.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.10",
-    "@angular/cli": "~8.3.10",
-    "@angular/compiler-cli": "~8.2.11",
-    "@angular/language-service": "~8.2.11",
-    "@types/node": "~8.9.4",
-    "@types/jasmine": "~3.3.8",
+    "@angular-devkit/build-ng-packagr": "~0.803.19",
+    "@angular/cli": "~8.3.19",
+    "@angular/compiler-cli": "^8.2.14",
+    "@angular/language-service": "^8.2.14",
+    "@types/jasmine": "~3.4.6",
     "@types/jasminewd2": "~2.0.3",
-    "codelyzer": "^5.0.0",
-    "jasmine-core": "~3.4.0",
+    "@types/node": "~12.12.8",
+    "codelyzer": "~5.2.0",
+    "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~4.1.0",
-    "karma-chrome-launcher": "~2.2.0",
-    "karma-coverage-istanbul-reporter": "~2.0.1",
+    "karma": "~4.4.1",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage-istanbul-reporter": "~2.1.0",
     "karma-jasmine": "~2.0.1",
-    "karma-jasmine-html-reporter": "^1.4.0",
-    "protractor": "~5.4.0",
-    "ts-node": "~7.0.0",
-    "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "karma-jasmine-html-reporter": "^1.4.2",
+    "ng-packagr": "^5.7.1",
+    "protractor": "~5.4.2",
+    "ts-node": "~8.5.2",
+    "tsickle": ">=0.25.5",
+    "tslib": "^1.7.1",
+    "tslint": "~5.20.1",
+    "typescript": "^3.5.3"
+  },
+  "projects": {
+    "ngx-scrollo": {
+      "root": "projects/ngx-scrollo",
+      "sourceRoot": "projects/ngx-scrollo/src",
+      "projectType": "library",
+      "prefix": "enl",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-scrollo/tsconfig.lib.json",
+            "project": "projects/ngx-scrollo/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/ngx-scrollo/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-scrollo/src/test.ts",
+            "tsConfig": "projects/ngx-scrollo/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-scrollo/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-scrollo/tsconfig.lib.json",
+              "projects/ngx-scrollo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
   }
 }
