@@ -100,7 +100,7 @@ example:
 <a
   href="#bottom"
   ngx-scrollo
-  [tweenDuration]="10000"
+  [tweenDuration]="6000"
   [tweenEasing]="'linear'"
 >
 </a>
