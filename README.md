@@ -63,22 +63,30 @@ example:
 
 example:
 ```html
-<div 
-  class="box"
-  ngx-scrollo
-  [tweenBegin]="50"
->
+<pre
+   class="prettyprint lang-js"
+   ngx-scrollo
+   [tweenBegin]="1"
+   [tweenEnd]="30"
+ >
+   {{ codeExamples.install}}
+ </pre>
 ```
 
 ```css
-.box {
-  transform: perspective(146rem) rotateX(10deg) rotateY(70deg) scale(0.5);
-  transition: all 1s ease;
+pre {
+
+  (...)
         
   &.scrolloTweenOnBegin {
-  opacity: 1;
-  transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1);
+     opacity: 0.9;
+     transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1.1);
   }
+
+   &.scrolloTweenOnEnd {
+     opacity: 0.9;
+     transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1);
+   }
 }
 ```
 
