@@ -88,7 +88,7 @@ export class ScrolloDirective implements OnInit {
         this.elementOffset = this.offset(this.el.nativeElement);
 
         if (!this.end) {
-            this.end = this.begin;
+            this.end = this.begin + 1;
         }
 
         if (this.elementOffset.top > this.vh) {
@@ -113,12 +113,17 @@ export class ScrolloDirective implements OnInit {
                 const currentScrollTop: number = document.documentElement.scrollTop || document.body.scrollTop;
                 const body: HTMLElement = document.documentElement;
 
+                if (anchorOffset.top >  this.vh) {
+                    anchorOffset.top  = anchorOffset.top - this.vh;
+                }
+
                 this.tinTween.tween({
                     'element': body,
                     'property': 'scrollTop',
                     'from': currentScrollTop,
                     'to': anchorOffset.top,
                     'duration': this.duration,
+                    'easing': this.easing,
                     'onComplete': function () {
                         document.location.hash = anchorId;
                     }
@@ -134,8 +139,6 @@ export class ScrolloDirective implements OnInit {
         }
 
         this.scrollTop = window.scrollY;
-
-        console.log(window.scrollY / (document.documentElement.scrollHeight - this.vh));
 
         this.tweenPogress = (this.scrollTop - this.beginParsed) / (this.endParsed - this.beginParsed);
 

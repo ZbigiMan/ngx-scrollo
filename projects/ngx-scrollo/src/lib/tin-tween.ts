@@ -6,40 +6,36 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class TinTween {    
+export class TinTween {
 
-    tween(opt: { 
-        element: any; 
-        property: any; 
-        from: any; 
-        to: any; 
-        duration: any; 
-        onComplete: any; 
-        easing?: any; 
-        onProgress?: any; 
+    tween(opt: {
+        element: any;
+        property: any;
+        from: any;
+        to: any;
+        duration: any;
+        easing?: any;
+        onComplete: any;
+        onProgress?: any;
     }) {
 
-        let start = performance.now();
-        let that = this;
+        const start = performance.now();
+        const that = this;
 
-        function tw() {            
+        function tw() {
 
             let progress: number,
-                e = opt.to,
+                value: number;
+
+            const e = opt.to,
                 t = performance.now() - start,
                 b = opt.from,
                 c = e - b,
                 d = opt.duration,
-                easing = that.Easing['def'],
-                value: number;
+                easing = opt.easing || that.Easing['def'];
 
-
-            if (opt.easing !== undefined) {
-                easing = opt.easing;
-            }
-
-            value = that.Easing[easing](null, t, b, c, d);  
-            progress = Math.round((value /e) * 100);           
+            value = that.Easing[easing](null, t, b, c, d);
+            progress = Math.round((value / e) * 100);
 
             if (opt.onProgress !== undefined) {
                 opt.onProgress({
@@ -48,8 +44,10 @@ export class TinTween {
                 });
             }
 
+            let f: any;
+
             if (t <= d) {
-                var f = window.requestAnimationFrame(tw);
+                f = window.requestAnimationFrame(tw);
             } else {
                 window.cancelAnimationFrame(f);
                 value = opt.to;
@@ -62,7 +60,7 @@ export class TinTween {
                 }
             }
 
-            opt.element[opt.property] = value;            
+            opt.element[opt.property] = value;
         }
 
         tw();
@@ -114,6 +112,7 @@ export class TinTween {
 
     // t: current time, b: begInnIng value, c: change In value, d: duration
 
+    // tslint:disable-next-line:member-ordering
     public Easing = {
         def: 'easeOutQuad',
         linear: function (x, t, b, c, d) {
@@ -129,6 +128,7 @@ export class TinTween {
             return -c * (t /= d) * (t - 2) + b;
         },
         easeInOutQuad: function (x, t, b, c, d) {
+            // tslint:disable-next-line:curly
             if ((t /= d / 2) < 1) return c / 2 * t * t + b;
             return -c / 2 * ((--t) * (t - 2) - 1) + b;
         },
@@ -139,6 +139,7 @@ export class TinTween {
             return c * ((t = t / d - 1) * t * t + 1) + b;
         },
         easeInOutCubic: function (x, t, b, c, d) {
+            // tslint:disable-next-line:curly
             if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
             return c / 2 * ((t -= 2) * t * t + 2) + b;
         },
@@ -149,6 +150,7 @@ export class TinTween {
             return -c * ((t = t / d - 1) * t * t * t - 1) + b;
         },
         easeInOutQuart: function (x, t, b, c, d) {
+            // tslint:disable-next-line:curly
             if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
             return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
         },
@@ -159,7 +161,7 @@ export class TinTween {
             return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
         },
         easeInOutQuint: function (x, t, b, c, d) {
-            if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
+            if ((t /= d / 2) < 1) { return c / 2 * t * t * t * t * t + b; }
             return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
         },
         easeInSine: function (x, t, b, c, d) {
@@ -175,12 +177,12 @@ export class TinTween {
             return (t === 0) ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
         },
         easeOutExpo: function (x, t, b, c, d) {
-            return (t == d) ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
+            return (t === d) ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
         },
         easeInOutExpo: function (x, t, b, c, d) {
-            if (t === 0) return b;
-            if (t == d) return b + c;
-            if ((t /= d / 2) < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+            if (t === 0) { return b; }
+            if (t === d) { return b + c; }
+            if ((t /= d / 2) < 1) { return c / 2 * Math.pow(2, 10 * (t - 1)) + b; }
             return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
         },
         easeInCirc: function (x, t, b, c, d) {
@@ -190,42 +192,39 @@ export class TinTween {
             return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
         },
         easeInOutCirc: function (x, t, b, c, d) {
-            if ((t /= d / 2) < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+            if ((t /= d / 2) < 1) { return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b; }
             return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
         },
         easeInElastic: function (x, t, b, c, d) {
-            var s = 1.70158; var p = 0; var a = c;
-            if (t === 0) return b; if ((t /= d) == 1) return b + c; if (!p) p = d * 0.3;
-            if (a < Math.abs(c)) { a = c; s = p / 4; }
-            else s = p / (2 * Math.PI) * Math.asin(c / a);
+            let s = 1.70158; let p = 0; let a = c;
+            if (t === 0) { return b; } if ((t /= d) === 1) { return b + c; } if (!p) { p = d * 0.3; }
+            if (a < Math.abs(c)) { a = c; s = p / 4; } else { s = p / (2 * Math.PI) * Math.asin(c / a); }
             return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
         },
         easeOutElastic: function (x, t, b, c, d) {
-            var s = 1.70158; var p = 0; var a = c;
-            if (t === 0) return b; if ((t /= d) == 1) return b + c; if (!p) p = d * 0.3;
-            if (a < Math.abs(c)) { a = c; s = p / 4; }
-            else s = p / (2 * Math.PI) * Math.asin(c / a);
+            let s = 1.70158; let p = 0; let a = c;
+            if (t === 0) { return b; } if ((t /= d) === 1) { return b + c; } if (!p) { p = d * 0.3; }
+            if (a < Math.abs(c)) { a = c; s = p / 4; } else { s = p / (2 * Math.PI) * Math.asin(c / a); }
             return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
         },
         easeInOutElastic: function (x, t, b, c, d) {
-            var s = 1.70158; var p = 0; var a = c;
-            if (t === 0) return b; if ((t /= d / 2) == 2) return b + c; if (!p) p = d * (0.3 * 1.5);
-            if (a < Math.abs(c)) { a = c; s = p / 4; }
-            else s = p / (2 * Math.PI) * Math.asin(c / a);
-            if (t < 1) return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+            let s = 1.70158; let p = 0; let a = c;
+            if (t === 0) { return b; } if ((t /= d / 2) === 2) { return b + c; } if (!p) { p = d * (0.3 * 1.5); }
+            if (a < Math.abs(c)) { a = c; s = p / 4; } else { s = p / (2 * Math.PI) * Math.asin(c / a); }
+            if (t < 1) { return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b; }
             return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * 0.5 + c + b;
         },
         easeInBack: function (x, t, b, c, d, s) {
-            if (s === undefined) s = 1.70158;
+            if (s === undefined) { s = 1.70158; }
             return c * (t /= d) * t * ((s + 1) * t - s) + b;
         },
         easeOutBack: function (x, t, b, c, d, s) {
-            if (s === undefined) s = 1.70158;
+            if (s === undefined) { s = 1.70158; }
             return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
         },
         easeInOutBack: function (x, t, b, c, d, s) {
-            if (s === undefined) s = 1.70158;
-            if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b;
+            if (s === undefined) { s = 1.70158; }
+            if ((t /= d / 2) < 1) { return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b; }
             return c / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2) + b;
         },
         easeInBounce: function (x, t, b, c, d) {
@@ -243,10 +242,10 @@ export class TinTween {
             }
         },
         easeInOutBounce: function (x, t, b, c, d) {
-            if (t < d / 2) return this.easeInBounce(x, t * 2, 0, c, d) * 0.5 + b;
+            if (t < d / 2) { return this.easeInBounce(x, t * 2, 0, c, d) * 0.5 + b; }
             return this.easeOutBounce(x, t * 2 - d, 0, c, d) * 0.5 + c * 0.5 + b;
         }
-    }
+    };
 
     /*
      *
