@@ -100,7 +100,7 @@ export class ScrolloDirective implements OnInit {
         }
     }
 
-    @HostListener('click', ['$event']) private onClick(event: Event) {
+    @HostListener('click', ['$event']) public onClick(event: Event) {
         if (this.tag === 'A') {
             event.preventDefault();
             const href = this.el.nativeElement.href;
@@ -132,7 +132,7 @@ export class ScrolloDirective implements OnInit {
         }
     }
 
-    @HostListener('window:scroll', []) private onscroll() {
+    @HostListener('window:scroll', []) public onscroll() {
 
         if (!this.begin) {
             return;

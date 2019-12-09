@@ -3,6 +3,8 @@
 ### Angular 2x directive
 ### Scroll animations made simple and responsive
 
+##### Live example: http://zbigiman.com/ngx-scrollo-example
+
 ### Install:
 ```bash
 npm i ngx-scrollo
