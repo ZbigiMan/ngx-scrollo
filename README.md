@@ -113,8 +113,6 @@ example:
 
 `tweenOnReverseBegin`
 
-`tweenOnReverseBegin`
-
 `tweenOnReverseEnd`
 
 `tweenOnProgress`
