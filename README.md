@@ -71,7 +71,7 @@ example:
    [tweenBegin]="1"
    [tweenEnd]="30"
  >
-   {{ codeExamples.install}}
+   {{ codeExamples.install }}
  </pre>
 ```
 
