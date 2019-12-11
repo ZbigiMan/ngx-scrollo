@@ -1,8 +1,9 @@
+import { browser } from 'protractor';
 // ngx-scrollo previously circus-scroll-2
 // Released: December 2016, refactored: 2018, 2019
 // Author: Zbigi Man Zbigniew Stepniewski, www.zbigiman.com, github.com/zbigiman
 
-import { Directive, ElementRef, HostListener, Input, Renderer, Inject, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Inject, AfterViewInit } from '@angular/core';
 import { TinTween } from './tin-tween';
 import { DOCUMENT } from '@angular/common';
 
@@ -12,7 +13,7 @@ import { DOCUMENT } from '@angular/common';
     providers: [TinTween]
 })
 
-export class ScrolloDirective implements OnInit {
+export class ScrolloDirective implements AfterViewInit {
 
     @Input() tweenBegin: string;
     @Input() tweenEnd: string;
@@ -37,6 +38,8 @@ export class ScrolloDirective implements OnInit {
     private onReverseEnd: Function;
     private onProgress: Function;
     private duration: number;
+
+    private browser: any;
 
     private el: ElementRef;
     private tag: string;
@@ -71,7 +74,23 @@ export class ScrolloDirective implements OnInit {
         }
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
+        this.doInit();
+    }
+
+    doInit() {
+        setTimeout(() => {
+            this.init();
+        }, 0);
+    }
+
+    init() {
+        const _navigator = window.navigator.userAgent.toLowerCase();
+        this.browser = {
+            edge: _navigator.indexOf('edge') > -1,
+            firefox: _navigator.indexOf('firefox') > -1
+        };
+
         this.begin = parseInt(this.tweenBegin, 10) || null;
         this.end = parseInt(this.tweenEnd, 10) || null;
         this.from = this.tweenFrom;
@@ -85,6 +104,7 @@ export class ScrolloDirective implements OnInit {
         this.duration = this.tweenDuration || 1500;
 
         this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
         this.elementOffset = this.offset(this.el.nativeElement);
 
         if (!this.end) {
@@ -100,6 +120,10 @@ export class ScrolloDirective implements OnInit {
         }
     }
 
+    @HostListener('window:resize', ['$event']) public onResize(event: Event) {
+        this.doInit();
+    }
+
     @HostListener('click', ['$event']) public onClick(event: Event) {
         if (this.tag === 'A') {
             event.preventDefault();
@@ -111,10 +135,14 @@ export class ScrolloDirective implements OnInit {
                 const anchor: HTMLElement = document.getElementById(anchorId);
                 const anchorOffset: any = this.offset(anchor);
                 const currentScrollTop: number = document.documentElement.scrollTop || document.body.scrollTop;
-                const body: HTMLElement = document.documentElement;
+                let body: HTMLElement = document.documentElement;
 
-                if (anchorOffset.top >  this.vh) {
-                    anchorOffset.top  = anchorOffset.top - this.vh;
+                if (this.browser.edge) {
+                    body = document.body;
+                }
+
+                if (anchorOffset.top > this.vh) {
+                    anchorOffset.top = anchorOffset.top - this.vh;
                 }
 
                 this.tinTween.tween({
@@ -300,28 +328,11 @@ export class ScrolloDirective implements OnInit {
 
     // offset
 
-    isWindow(obj: { window: any; }) {
-        return obj != null && obj === obj.window;
-    }
-    getWindow(elem: any) {
-        return this.isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-    }
     offset(elem: HTMLElement) {
-        let docElem: HTMLElement,
-            win: any,
-            box: any;
-
-        const doc = elem.ownerDocument;
-
-        docElem = doc.documentElement;
-
-        if (typeof elem.getBoundingClientRect !== typeof undefined) {
-            box = elem.getBoundingClientRect();
-        }
-        win = this.getWindow(doc);
+        const box = elem.getBoundingClientRect();
         return {
-            top: box.top + win.pageYOffset - docElem.clientTop,
-            left: box.left + win.pageXOffset - docElem.clientLeft,
+            top: box.top,
+            left: box.left,
             height: box.height,
             width: box.width
 

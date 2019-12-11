@@ -1,122 +1,124 @@
-<span id="top"></span>
-<div class="container full-width full-height fixed top background"></div>
-<nav class="container full-width fixed bottom flex center middle z-index-100 navbar">
-  <div class="size-3 overflow__hidden">
-    <a
-      class="icon size-3 chewron-circle-down scroll-down-bt absolute z-index-100"
-      href="#bottom"
-      ngx-scrollo
-      [tweenDuration]="5000"
-      [tweenEasing]="'linear'"
-      [tweenBegin]="70"
-      [tweenEnd]="100"
-    >
-    </a>
-    <a
-      class="icon size-3 chewron-circle-up scroll-up-bt"
-      href="#top"
-      ngx-scrollo
-      [tweenDuration]="5000"
-      [tweenEasing]="'linear'"
-      [tweenBegin]="70"
-      [tweenEnd]="100"
-    >
-    </a>
-</div>
-</nav>
-<main class="container absolute top full-width main">
-  <section
-    class="container full-width full-height fixed top flex row center middle section__one"
-    ngx-scrollo
-    [tweenBegin]="1"
-    [tweenEnd]="100"
-    >
-    <div class="text center">
-      <h1
-        class="title"
+<ng-template [ngIf]="isReady">
+  <span id="top"></span>
+  <div class="container full-width full-height fixed top background"></div>
+  <nav class="container full-width fixed bottom flex center middle z-index-100 navbar">
+    <div class="size-3 overflow__hidden">
+      <a
+        class="icon size-3 chewron-circle-down scroll-down-bt absolute z-index-100"
+        href="#bottom"
         ngx-scrollo
-        [tweenBegin]="1"
+        [tweenDuration]="5000"
+        [tweenEasing]="'linear'"
+        [tweenBegin]="70"
         [tweenEnd]="100"
-        [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25rem', opacity: '1'}"
-        [tweenTo]="{letterSpacing : '6vw', fontSize : '0rem', opacity: '0'}"
-        [tweenEasing]="'easeOutQuad'"
-        [tweenOnBegin]="animOneOnBegin"
-        [tweenOnEnd]="animOneOnEnd"
-        [tweenOnReverseBegin]="animOneOnReverseBegin"
-        [tweenOnReverseEnd]="animOneOnReverseEnd"
-        [tweenOnProgress]="animOneOnProgress"
       >
+      </a>
+      <a
+        class="icon size-3 chewron-circle-up scroll-up-bt"
+        href="#top"
         ngx-scrollo
-      </h1>
-    </div>
-  </section>
-  <section class="container full-width full-height flex row center middle section__two">
-    <div class="text center">
-      <h2
-        class="title"
-        ngx-scrollo
-        [tweenBegin]="1"
-        [tweenEnd]="40"
-        [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
-        [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
-        [tweenEasing]="'easeOutBack'"
-        [tweenOnProgress]="anim2OnProgress"
+        [tweenDuration]="5000"
+        [tweenEasing]="'linear'"
+        [tweenBegin]="70"
+        [tweenEnd]="100"
       >
-        Scroll animations
-      </h2>
-      <h2
-        class="title"
-        ngx-scrollo
-        [tweenBegin]="10"
-        [tweenEnd]="50"
-        [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
-        [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
-        [tweenEasing]="'easeOutBack'"
-        [tweenOnProgress]="anim2OnProgress"
-      >
-        made simple
-      </h2>
-      <h2
-        class="title"
-        ngx-scrollo
-        [tweenBegin]="20"
-        [tweenEnd]="60"
-        [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
-        [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
-        [tweenEasing]="'easeOutBack'"
-      >
-        and responsive
-      </h2>
-    </div>
-  </section>
-  <section class="container full-width section__code">
-    <pre
-      class="prettyprint lang-js"
+      </a>
+  </div>
+  </nav>
+  <main class="container absolute top full-width main">
+    <section
+      class="container full-width full-height fixed top flex row center middle section__one"
       ngx-scrollo
       [tweenBegin]="1"
-      [tweenEnd]="30"
-    >
-      {{ codeExamples.install}}
-    </pre>
-    <pre
-      class="prettyprint lang-js"
-      ngx-scrollo
-      [tweenBegin]="10"
-      [tweenEnd]="40"
-    >
-        {{ codeExamples.import }}
+      [tweenEnd]="100"
+      >
+      <div class="text center">
+        <h1
+          class="title"
+          ngx-scrollo
+          [tweenBegin]="1"
+          [tweenEnd]="100"
+          [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25rem', opacity: '1'}"
+          [tweenTo]="{letterSpacing : '6vw', fontSize : '0rem', opacity: '0'}"
+          [tweenEasing]="'easeOutQuad'"
+          [tweenOnBegin]="animOneOnBegin"
+          [tweenOnEnd]="animOneOnEnd"
+          [tweenOnReverseBegin]="animOneOnReverseBegin"
+          [tweenOnReverseEnd]="animOneOnReverseEnd"
+          [tweenOnProgress]="animOneOnProgress"
+        >
+          ngx-scrollo
+        </h1>
+      </div>
+    </section>
+    <section class="container full-width full-height flex row center middle section__two">
+      <div class="text center">
+        <h2
+          class="title"
+          ngx-scrollo
+          [tweenBegin]="1"
+          [tweenEnd]="40"
+          [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
+          [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
+          [tweenEasing]="'easeOutBack'"
+          [tweenOnProgress]="anim2OnProgress"
+        >
+          Scroll animations
+        </h2>
+        <h2
+          class="title"
+          ngx-scrollo
+          [tweenBegin]="10"
+          [tweenEnd]="50"
+          [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
+          [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
+          [tweenEasing]="'easeOutBack'"
+          [tweenOnProgress]="anim2OnProgress"
+        >
+          made simple
+        </h2>
+        <h2
+          class="title"
+          ngx-scrollo
+          [tweenBegin]="20"
+          [tweenEnd]="60"
+          [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
+          [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
+          [tweenEasing]="'easeOutBack'"
+        >
+          and responsive
+        </h2>
+      </div>
+    </section>
+    <section class="container full-width section__code">
+      <pre
+        class="prettyprint lang-js"
+        ngx-scrollo
+        [tweenBegin]="1"
+        [tweenEnd]="30"
+      >
+        {{ codeExamples.install}}
       </pre>
-    <pre
-      class="prettyprint lang-html"
-      ngx-scrollo
-      [tweenBegin]="20"
-      [tweenEnd]="50"
-    >
-      {{ codeExamples.html01}}
-    </pre>
-    <div class="container full-width padding-8 text center link">
-        <a href="https://github.com/ZbigiMan/ngx-scrollo" target="_blank">see more...</a>
-    </div>
-  </section>
-  <span id="bottom"></span>
-</main>
+      <pre
+        class="prettyprint lang-js"
+        ngx-scrollo
+        [tweenBegin]="10"
+        [tweenEnd]="40"
+      >
+          {{ codeExamples.import }}
+        </pre>
+      <pre
+        class="prettyprint lang-html"
+        ngx-scrollo
+        [tweenBegin]="20"
+        [tweenEnd]="50"
+      >
+        {{ codeExamples.html01}}
+      </pre>
+      <div class="container full-width padding-8 text center link">
+          <a href="https://github.com/ZbigiMan/ngx-scrollo" target="_blank">see more...</a>
+      </div>
+    </section>
+    <span id="bottom"></span>
+  </main>
+</ng-template>

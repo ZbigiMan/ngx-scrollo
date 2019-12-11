@@ -1,17 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { AppConstants } from './app.constants';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
 
-  codeExamples: any;
+  public codeExamples: any;
+  public isReady = false;
 
-  constructor() {
+  constructor(private cd: ChangeDetectorRef) {
     this.codeExamples = AppConstants.codeExamples;
+  }
+
+  ngAfterViewInit() {
+    this.isReady = true;
+    this.cd.detectChanges();
   }
 
   public animOneOnBegin(data: object) {

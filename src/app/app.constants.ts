@@ -9,12 +9,12 @@ import:
 import { ScrolloModule } from 'ngx-scrollo';
 
 @NgModule({
-    (...)
+    // ...
     imports: [
         ScrolloModule,
-        (...)
+        // ...
     ],
-    (...)
+    // ...
 })`,
 html01:
 `
