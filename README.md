@@ -1,6 +1,6 @@
 # ngx-scrollo
 
-### Angular 2x directive
+### Angular 2+ directive
 ### Scroll animations made simple and responsive
 
 #### Example: https://github.com/ZbigiMan/ngx-scrollo-example
@@ -16,12 +16,12 @@ npm i ngx-scrollo
 import { ScrolloModule } from 'ngx-scrollo';
 
 @NgModule({
-    (...)
+    // ...
     imports: [
         ScrolloModule,
-        (...)
+        // ...
     ],
-    (...)
+    // ...
 })
 ```
 
@@ -78,7 +78,7 @@ example:
 ```css
 pre {
 
-  (...)
+  // ...
         
   &.scrolloTweenOnBegin {
      opacity: 0.9;
