@@ -26,6 +26,7 @@ export class ScrolloDirective implements AfterViewInit {
     @Input() tweenOnReverseEnd: Function;
     @Input() tweenOnProgress: Function;
     @Input() tweenDuration: number;
+    @Input() setLocationHash: boolean;
 
     private begin: number;
     private end: number;
@@ -38,6 +39,7 @@ export class ScrolloDirective implements AfterViewInit {
     private onReverseEnd: Function;
     private onProgress: Function;
     private duration: number;
+    private locationHash: boolean;
 
     private browser: any;
 
@@ -101,7 +103,8 @@ export class ScrolloDirective implements AfterViewInit {
         this.onReverseBegin = this.tweenOnReverseBegin;
         this.onReverseEnd = this.tweenOnReverseEnd;
         this.onProgress = this.tweenOnProgress;
-        this.duration = this.tweenDuration || 1500;
+        this.duration = this.tweenDuration || 1000;
+        this.locationHash = this.setLocationHash || true;
 
         this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
@@ -131,10 +134,19 @@ export class ScrolloDirective implements AfterViewInit {
 
             if (href.indexOf('#') !== -1) {
 
+                const currentScrollTop: number = document.documentElement.scrollTop || document.body.scrollTop;
                 const anchorId: string = href.split('#')[1];
                 const anchor: HTMLElement = document.getElementById(anchorId);
-                const anchorOffset: any = this.offset(anchor);
-                const currentScrollTop: number = document.documentElement.scrollTop || document.body.scrollTop;
+                let anchorOffset: any;
+
+                if (!anchor) {
+                    anchorOffset = {
+                        top: currentScrollTop + this.vh
+                    };
+                } else {
+                   anchorOffset = this.offset(anchor);
+                }
+
                 let body: HTMLElement = document.documentElement;
 
                 if (this.browser.edge) {
@@ -153,7 +165,9 @@ export class ScrolloDirective implements AfterViewInit {
                     'duration': this.duration,
                     'easing': this.easing,
                     'onComplete': function () {
-                        document.location.hash = anchorId;
+                        if (this.locationHash) {
+                            document.location.hash = anchorId;
+                        }
                     }
                 });
             }
