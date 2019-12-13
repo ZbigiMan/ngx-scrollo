@@ -35,7 +35,17 @@ export class TinTween {
                 easing = opt.easing || that.Easing['def'];
 
             value = that.Easing[easing](null, t, b, c, d);
-            progress = Math.round((value / e) * 100);
+            progress = 100 - Math.round(((value - e) / (b - e)) * 100);
+
+            if (progress <= 0) {
+                progress = 0;
+                value = b;
+            }
+
+            if (progress >= 100) {
+                progress = 100;
+                value = e;
+            }
 
             if (opt.onProgress !== undefined) {
                 opt.onProgress({
@@ -50,7 +60,6 @@ export class TinTween {
                 f = window.requestAnimationFrame(tw);
             } else {
                 window.cancelAnimationFrame(f);
-                value = opt.to;
 
                 if (opt.onComplete !== undefined) {
                     opt.onComplete({
@@ -58,6 +67,8 @@ export class TinTween {
                         'value': value
                     });
                 }
+
+                progress = 0;
             }
 
             opt.element[opt.property] = value;

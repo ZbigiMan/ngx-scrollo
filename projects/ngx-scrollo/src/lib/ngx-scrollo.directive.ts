@@ -56,6 +56,11 @@ export class ScrolloDirective implements AfterViewInit {
     private revStarted = 0;
     private revCompleted = 0;
 
+    private body: HTMLElement;
+    private href: string;
+    private anchorId: string;
+    private anchorOffset: any;
+
     private errors = {
         'error': 'ngx-scrollo Settings Error.',
         'formToDontMatch': 'tweenFrom and tweenTo values don\'t match.',
@@ -104,7 +109,6 @@ export class ScrolloDirective implements AfterViewInit {
         this.onReverseEnd = this.tweenOnReverseEnd;
         this.onProgress = this.tweenOnProgress;
         this.duration = this.tweenDuration || 1000;
-        this.locationHash = this.setLocationHash || true;
 
         this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
@@ -121,6 +125,33 @@ export class ScrolloDirective implements AfterViewInit {
             this.beginParsed = (this.begin / 100) * this.vh;
             this.endParsed = (this.end / 100) * this.vh;
         }
+
+        if (this.tag === 'A') {
+
+            this.locationHash = this.setLocationHash === undefined ? true : this.setLocationHash;
+
+            this.body = document.documentElement;
+
+            if (this.browser.edge) {
+                this.body = document.body;
+            }
+
+            this.href = this.el.nativeElement.href;
+            this.anchorId = this.href.split('#')[1];
+            const anchor: HTMLElement = document.getElementById(this.anchorId);
+
+            if (!anchor) {
+                this.anchorOffset = {
+                    top: this.vh
+                };
+            } else {
+                this.anchorOffset = this.offset(anchor);
+            }
+
+            if (this.anchorOffset.top > this.vh) {
+                this.anchorOffset.top = this.anchorOffset.top - this.vh;
+            }
+        }
     }
 
     @HostListener('window:resize', ['$event']) public onResize(event: Event) {
@@ -130,44 +161,25 @@ export class ScrolloDirective implements AfterViewInit {
     @HostListener('click', ['$event']) public onClick(event: Event) {
         if (this.tag === 'A') {
             event.preventDefault();
-            const href = this.el.nativeElement.href;
 
-            if (href.indexOf('#') !== -1) {
+            if (this.href.indexOf('#') !== -1) {
 
                 const currentScrollTop: number = document.documentElement.scrollTop || document.body.scrollTop;
-                const anchorId: string = href.split('#')[1];
-                const anchor: HTMLElement = document.getElementById(anchorId);
-                let anchorOffset: any;
-
-                if (!anchor) {
-                    anchorOffset = {
-                        top: currentScrollTop + this.vh
-                    };
-                } else {
-                   anchorOffset = this.offset(anchor);
-                }
-
-                let body: HTMLElement = document.documentElement;
-
-                if (this.browser.edge) {
-                    body = document.body;
-                }
-
-                if (anchorOffset.top > this.vh) {
-                    anchorOffset.top = anchorOffset.top - this.vh;
-                }
 
                 this.tinTween.tween({
-                    'element': body,
+                    'element': this.body,
                     'property': 'scrollTop',
                     'from': currentScrollTop,
-                    'to': anchorOffset.top,
+                    'to': this.anchorOffset.top,
                     'duration': this.duration,
                     'easing': this.easing,
-                    'onComplete': function () {
+                    'onComplete': () => {
                         if (this.locationHash) {
-                            document.location.hash = anchorId;
+                            document.location.hash = this.anchorId;
                         }
+                    },
+                    'onProgress': (data) => {
+                        // console.log(data);
                     }
                 });
             }
@@ -344,6 +356,7 @@ export class ScrolloDirective implements AfterViewInit {
 
     offset(elem: HTMLElement) {
         const box = elem.getBoundingClientRect();
+
         return {
             top: box.top,
             left: box.left,
