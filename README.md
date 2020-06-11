@@ -1,7 +1,7 @@
 # ngx-scrollo
 
 ### Angular 2+ directive
-### Scroll animations made simple and responsive
+### Angular Scroll animations made simple and responsive
 
 #### Example: https://github.com/ZbigiMan/ngx-scrollo-example
 
