@@ -1,11 +1,21 @@
-import { browser } from 'protractor';
-// ngx-scrollo previously circus-scroll-2
-// Released: December 2016, refactored: 2018, 2019
-// Author: Zbigi Man Zbigniew Stepniewski, www.zbigiman.com, github.com/zbigiman
+/*
+    ngx-scrollo previously circus-scroll-2
+    Released: December 2016, refactored: 2018, 2019, 2020
+    Author: Zbigi Man Zbigniew Stepniewski, www.zbigiman.com, github.com/zbigiman
+*/
 
-import { Directive, ElementRef, HostListener, Input, Inject, AfterViewInit } from '@angular/core';
+import {
+    AfterViewInit,
+    Directive,
+    ElementRef,
+    HostListener,
+    Input,
+    OnChanges,
+} from '@angular/core';
+
+import { Easing } from './easing';
+import { ScrolloService } from './ngx-scrollo.service';
 import { TinTween } from './tin-tween';
-import { DOCUMENT } from '@angular/common';
 
 @Directive({
     // tslint:disable-next-line:directive-selector
@@ -13,39 +23,38 @@ import { DOCUMENT } from '@angular/common';
     providers: [TinTween]
 })
 
-export class ScrolloDirective implements AfterViewInit {
+export class ScrolloDirective implements AfterViewInit, OnChanges {
 
-    @Input() tweenBegin: string;
-    @Input() tweenEnd: string;
-    @Input() tweenFrom: string;
-    @Input() tweenTo: string;
-    @Input() tweenEasing: string;
-    @Input() tweenOnBegin: Function;
-    @Input() tweenOnEnd: Function;
-    @Input() tweenOnReverseBegin: Function;
-    @Input() tweenOnReverseEnd: Function;
-    @Input() tweenOnProgress: Function;
-    @Input() tweenDuration: number;
+    @Input() scrolloBegin: string;
+    @Input() scrolloEnd: string;
+    @Input() scrolloFrom: string;
+    @Input() scrolloTo: string;
+    @Input() scrolloEasing: string;
+    @Input() scrolloOnBegin: any;
+    @Input() scrolloOnEnd: any;
+    @Input() scrolloOnReverseBegin: any;
+    @Input() scrolloOnReverseEnd: any;
+    @Input() scrolloOnProgress: any;
+    @Input() scrolloDuration: number;
     @Input() setLocationHash: boolean;
+    @Input() scrolloUpdate: boolean;
 
     private begin: number;
     private end: number;
     private from: string;
     private to: string;
     private easing: string;
-    private onBegin: Function;
-    private onEnd: Function;
-    private onReverseBegin: Function;
-    private onReverseEnd: Function;
-    private onProgress: Function;
+    private onBegin: any;
+    private onEnd: any;
+    private onReverseBegin: any;
+    private onReverseEnd: any;
+    private onProgress: any;
     private duration: number;
-    private locationHash: boolean;
-
-    private browser: any;
 
     private el: ElementRef;
     private tag: string;
     private vh: number;
+    private scrollHeight: number;
     private elementOffset: any;
     private scrollTop: number;
     private beginParsed: number;
@@ -57,17 +66,15 @@ export class ScrolloDirective implements AfterViewInit {
     private revCompleted = 0;
 
     private errors = {
-        'error': 'ngx-scrollo Settings Error.',
-        'formToDontMatch': 'tweenFrom and tweenTo values don\'t match.',
-        'beginEndDontMatch': 'tweenBegin and tweenEnd values don\'t match.'
+        error: 'ngx-scrollo Settings Error.',
+        formToDontMatch: 'scrolloFrom and scrolloTo values don\'t match.',
+        beginEndDontMatch: 'scrolloBegin and scrolloEnd values don\'t match.'
     };
 
     constructor(
-        @Inject(DOCUMENT) document,
         public elementRef: ElementRef,
-        private tinTween: TinTween
+        private service: ScrolloService,
     ) {
-        this.tinTween = tinTween;
         this.el = elementRef;
         this.tag = this.el.nativeElement.tagName;
 
@@ -77,54 +84,33 @@ export class ScrolloDirective implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.doInit();
+        this.init();
     }
 
-    doInit() {
-        setTimeout(() => {
-            this.init();
-        }, 0);
+    ngOnChanges() {
+        // console.log('change', this.scrolloUpdate);
     }
 
     init() {
-        const _navigator = window.navigator.userAgent.toLowerCase();
-        this.browser = {
-            edge: _navigator.indexOf('edge') > -1,
-            firefox: _navigator.indexOf('firefox') > -1
-        };
-
-        this.begin = parseInt(this.tweenBegin, 10) || null;
-        this.end = parseInt(this.tweenEnd, 10) || null;
-        this.from = this.tweenFrom;
-        this.to = this.tweenTo;
-        this.easing = this.tweenEasing;
-        this.onBegin = this.tweenOnBegin;
-        this.onEnd = this.tweenOnEnd;
-        this.onReverseBegin = this.tweenOnReverseBegin;
-        this.onReverseEnd = this.tweenOnReverseEnd;
-        this.onProgress = this.tweenOnProgress;
-        this.duration = this.tweenDuration || 1000;
-        this.locationHash = this.setLocationHash || true;
-
-        this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-        this.elementOffset = this.offset(this.el.nativeElement);
-
-        if (!this.end) {
-            this.end = this.begin + 1;
+        this.begin = parseInt(this.scrolloBegin, 10) || null;
+        if (this.scrolloEnd && this.scrolloEnd !== 'auto') {
+            this.end = parseInt(this.scrolloEnd, 10) || null;
         }
-
-        if (this.elementOffset.top > this.vh) {
-            this.beginParsed = (((this.begin / 100) * this.vh) + this.elementOffset.top) - this.vh;
-            this.endParsed = (((this.end / 100) * this.vh) + this.elementOffset.top) - this.vh;
-        } else {
-            this.beginParsed = (this.begin / 100) * this.vh;
-            this.endParsed = (this.end / 100) * this.vh;
-        }
+        this.from = this.scrolloFrom;
+        this.to = this.scrolloTo;
+        this.easing = this.scrolloEasing;
+        this.onBegin = this.scrolloOnBegin;
+        this.onEnd = this.scrolloOnEnd;
+        this.onReverseBegin = this.scrolloOnReverseBegin;
+        this.onReverseEnd = this.scrolloOnReverseEnd;
+        this.onProgress = this.scrolloOnProgress;
+        this.duration = this.scrolloDuration || 1000;
     }
 
     @HostListener('window:resize', ['$event']) public onResize(event: Event) {
-        this.doInit();
+        setTimeout(() => {
+            this.init();
+        });
     }
 
     @HostListener('click', ['$event']) public onClick(event: Event) {
@@ -134,55 +120,47 @@ export class ScrolloDirective implements AfterViewInit {
 
             if (href.indexOf('#') !== -1) {
 
-                const currentScrollTop: number = document.documentElement.scrollTop || document.body.scrollTop;
+                this.vh = this.service.vh();
+                const currentScrollTop: number = this.service.scrollTop();
                 const anchorId: string = href.split('#')[1];
                 const anchor: HTMLElement = document.getElementById(anchorId);
-                let anchorOffset: any;
 
                 if (!anchor) {
-                    anchorOffset = {
-                        top: currentScrollTop + this.vh
-                    };
+                    this.service.scrollToPosition({
+                        position: currentScrollTop + this.vh,
+                        duration: this.duration
+                    });
                 } else {
-                   anchorOffset = this.offset(anchor);
-                }
-
-                let body: HTMLElement = document.documentElement;
-
-                if (this.browser.edge) {
-                    body = document.body;
-                }
-
-                if (anchorOffset.top > this.vh) {
-                    anchorOffset.top = anchorOffset.top - this.vh;
-                }
-
-                this.tinTween.tween({
-                    'element': body,
-                    'property': 'scrollTop',
-                    'from': currentScrollTop,
-                    'to': anchorOffset.top,
-                    'duration': this.duration,
-                    'easing': this.easing,
-                    'onComplete': function () {
-                        if (this.locationHash) {
-                            document.location.hash = anchorId;
-                        }
+                    this.service.scrollTo({
+                        elementId: anchor.id,
+                        duration: this.duration
+                    });
+                    if (this.setLocationHash) {
+                        document.location.hash = anchor.id;
                     }
-                });
+                }
             }
         }
     }
 
     @HostListener('window:scroll', []) public onscroll() {
 
-        if (!this.begin) {
+        if (this.begin === null) {
             return;
         }
 
-        this.scrollTop = window.scrollY;
+        this.vh = this.service.vh();
+        this.elementOffset = this.service.offset(this.el.nativeElement);
+        let scrollTop = this.service.scrollTop();
 
-        this.tweenPogress = (this.scrollTop - this.beginParsed) / (this.endParsed - this.beginParsed);
+        this.beginParsed = this.elementOffset.top + ((this.begin / 100) * this.vh);
+        this.endParsed = this.elementOffset.top + ((this.end / 100) * this.vh);
+
+        if (this.beginParsed > this.vh) {
+            scrollTop = scrollTop + this.vh;
+        }
+
+        this.tweenPogress = (scrollTop - this.beginParsed) / (this.endParsed - this.beginParsed);
 
         if (this.tweenPogress <= 1 && this.completed > 0) {
             this.revStarted++;
@@ -256,12 +234,12 @@ export class ScrolloDirective implements AfterViewInit {
                 if (t >= 0 && t <= d) {
 
                     // Checking 'easing'
-                    if (that.tinTween.Easing[that.easing] === undefined) {
+                    if (Easing[that.easing] === undefined) {
                         that.easing = 'easeOutQuad';
                     }
                     //
 
-                    const newIntVal = that.tinTween.Easing[that.easing](null, t, b, c, d);
+                    const newIntVal = Easing[that.easing](null, t, b, c, d);
                     let newVal: string;
 
                     if (unit !== false) {
@@ -281,9 +259,12 @@ export class ScrolloDirective implements AfterViewInit {
         // onBegin
 
         if (this.started === 1) {
-            this.addClass(that.el.nativeElement, 'scrolloTweenOnBegin');
+            this.service.addClass(that.el.nativeElement, 'scrolloOnBegin');
             if (this.onBegin !== undefined) {
-                this.onBegin(this.el);
+                this.onBegin({
+                    progress: this.tweenPogress,
+                    element: this.el
+                });
             }
         }
 
@@ -291,18 +272,24 @@ export class ScrolloDirective implements AfterViewInit {
 
         if (this.completed === 1) {
             this.tweenPogress = 1;
-            this.addClass(that.el.nativeElement, 'scrolloTweenOnEnd');
+            this.service.addClass(that.el.nativeElement, 'scrolloOnEnd');
             if (this.onEnd !== undefined) {
-                this.onEnd(this.el);
+                this.onEnd({
+                    progress: this.tweenPogress,
+                    element: this.el
+                });
             }
         }
 
         // onReverseBegin
 
         if (this.revStarted === 1) {
-            this.removeClass(that.el.nativeElement, 'scrolloTweenOnEnd');
+            this.service.removeClass(that.el.nativeElement, 'scrolloOnEnd');
             if (this.onReverseBegin !== undefined) {
-                this.onReverseBegin(this.el);
+                this.onReverseBegin({
+                    progress: this.tweenPogress,
+                    element: this.el
+                });
             }
             this.revStarted++;
         }
@@ -311,9 +298,12 @@ export class ScrolloDirective implements AfterViewInit {
 
         if (this.revCompleted === 1) {
             this.tweenPogress = 0;
-            this.removeClass(that.el.nativeElement, 'scrolloTweenOnBegin');
+            this.service.removeClass(that.el.nativeElement, 'scrolloOnBegin');
             if (this.onReverseEnd !== undefined) {
-                this.onReverseEnd(this.el);
+                this.onReverseEnd({
+                    progress: this.tweenPogress,
+                    element: this.el
+                });
             }
             this.revCompleted++;
         }
@@ -339,47 +329,4 @@ export class ScrolloDirective implements AfterViewInit {
             return parseInt(val, 0);
         }
     }
-
-    // offset
-
-    offset(elem: HTMLElement) {
-        const box = elem.getBoundingClientRect();
-        return {
-            top: box.top,
-            left: box.left,
-            height: box.height,
-            width: box.width
-
-        };
-    }
-
-    // addClass and removeClass methods
-
-    // Thanks to: http://jaketrent.com/post/addremove-classes-raw-javascript/
-
-    hasClass(el: HTMLElement, className: string) {
-        if (el.classList) {
-            return el.classList.contains(className);
-        } else {
-            return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
-        }
-    }
-
-    addClass(el: HTMLElement, className: string) {
-        if (el.classList) {
-            el.classList.add(className);
-        } else if (!this.hasClass(el, className)) {
-            el.className += ' ' + className;
-        }
-    }
-
-    removeClass(el: HTMLElement, className: string) {
-        if (el.classList) {
-            el.classList.remove(className);
-        } else if (this.hasClass(el, className)) {
-            const reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
-            el.className = el.className.replace(reg, ' ');
-        }
-    }
-    //
 }

@@ -21,16 +21,16 @@ html01:
 <h1
     class="title"
     ngx-scrollo
-    [tweenBegin]="1"
-    [tweenEnd]="100"
-    [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25em', opacity: '1'}"
-    [tweenTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
-    [tweenEasing]="'easeOutQuad'"
-    [tweenOnBegin]="animOneOnBegin"
-    [tweenOnEnd]="animOneOnEnd"
-    [tweenOnReverseBegin]="animOneOnReverseBegin"
-    [tweenOnReverseEnd]="animOneOnReverseEnd"
-    [tweenOnProgress]="animOneOnProgress"
+    [scrolloBegin]="1"
+    [scrolloEnd]="100"
+    [scrolloFrom]="{letterSpacing : '0vw', fontSize : '2.25em', opacity: '1'}"
+    [scrolloTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
+    [scrolloEasing]="'easeOutQuad'"
+    [scrolloOnBegin]="animOneOnBegin"
+    [scrolloOnEnd]="animOneOnEnd"
+    [scrolloOnReverseBegin]="animOneOnReverseBegin"
+    [scrolloOnReverseEnd]="animOneOnReverseEnd"
+    [scrolloOnProgress]="animOneOnProgress"
 >
     ngx-scrollo
 </h1>`

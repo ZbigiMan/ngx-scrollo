@@ -27,49 +27,49 @@ import { ScrolloModule } from 'ngx-scrollo';
 
 ## Use:
 
-### The `tweenBegin` and `tweenEnd` properties:
-`tweenBegin` - Number from 1 to 100, relative to viewport height
+### The `scrolloBegin` and `scrolloEnd` properties:
+`scrolloBegin` - Number from 1 to 100, relative to viewport height
 
-`tweenEnd` - Number from 1 to 100, relative to viewport height
+`scrolloEnd` - Number from 1 to 100, relative to viewport height
 
 ### Inline style properties animation:
 
-`tweenFrom` - start CSS properties
+`scrolloFrom` - start CSS properties
 
-`tweenTo` - end CSS properties
+`scrolloTo` - end CSS properties
 
 example:
 ```html
 <h1
   class="title"
   ngx-scrollo
-  [tweenBegin]="1"
-  [tweenEnd]="100"
-  [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25em', opacity: '1'}"
-  [tweenTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
-  [tweenEasing]="'easeOutQuad'"
-  [tweenOnBegin]="animOneOnBegin"
-  [tweenOnEnd]="animOneOnEnd"
-  [tweenOnReverseBegin]="animOneOnReverseBegin"
-  [tweenOnReverseEnd]="animOneOnReverseEnd"
-  [tweenOnProgress]="animOneOnProgress"
+  [scrolloBegin]="1"
+  [scrolloEnd]="100"
+  [scrolloFrom]="{letterSpacing : '0vw', fontSize : '2.25em', opacity: '1'}"
+  [scrolloTo]="{letterSpacing : '6vw', fontSize : '0em', opacity: '0'}"
+  [scrolloEasing]="'easeOutQuad'"
+  [scrolloOnBegin]="animOneOnBegin"
+  [scrolloOnEnd]="animOneOnEnd"
+  [scrolloOnReverseBegin]="animOneOnReverseBegin"
+  [scrolloOnReverseEnd]="animOneOnReverseEnd"
+  [scrolloOnProgress]="animOneOnProgress"
 >
   ngx-scrollo
 </h1>
 ```
 
 ### Animate using CSS clasess:
-`scrolloTweenOnBegin` - class added on scroll tween begin
+`scrolloOnBegin` - class added on scroll tween begin
 
-`scrolloTweenOnEnd` - class added on scroll tween end
+`scrolloOnEnd` - class added on scroll tween end
 
 example:
 ```html
 <pre
    class="prettyprint lang-js"
    ngx-scrollo
-   [tweenBegin]="1"
-   [tweenEnd]="30"
+   [scrolloBegin]="1"
+   [scrolloEnd]="30"
  >
    {{ codeExamples.install }}
  </pre>
@@ -80,12 +80,12 @@ pre {
 
   // ...
         
-  &.scrolloTweenOnBegin {
+  &.scrolloOnBegin {
      opacity: 0.9;
      transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1.1);
   }
 
-   &.scrolloTweenOnEnd {
+   &.scrolloOnEnd {
      opacity: 0.9;
      transform: perspective(146rem) rotateX(0deg) rotateY(0deg) scale(1);
    }
@@ -100,24 +100,24 @@ example:
 <a
   href="#bottom"
   ngx-scrollo
-  [tweenDuration]="6000"
-  [tweenEasing]="'linear'"
+  [scrolloDuration]="6000"
+  [scrolloEasing]="'linear'"
 >
 </a>
 ```
 
 ### Callback functions:
-`tweenOnBegin`
+`scrolloOnBegin`
 
-`tweenOnEnd`
+`scrolloOnEnd`
 
-`tweenOnReverseBegin`
+`scrolloOnReverseBegin`
 
-`tweenOnReverseEnd`
+`scrolloOnReverseEnd`
 
-`tweenOnProgress`
+`scrolloOnProgress`
 
-### The `tweenEasing` property:
+### The `scrolloEasing` property:
 
 ngx-sxrollo implements jQuery Easing v1.3 plugin functions* by gesheo - https://gist.github.com/gesheo/6194940 under BSD Licence.
 

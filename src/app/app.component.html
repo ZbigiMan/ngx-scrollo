@@ -8,10 +8,10 @@
         href="#bottom"
         ngx-scrollo
         [setLocationHash]="false"
-        [tweenDuration]="5000"
-        [tweenEasing]="'linear'"
-        [tweenBegin]="70"
-        [tweenEnd]="100"
+        [scrolloDuration]="5000"
+        [scrolloEasing]="'linear'"
+        [scrolloBegin]="70"
+        [scrolloEnd]="100"
       >
       </a>
       <a
@@ -19,38 +19,31 @@
         href="#top"
         ngx-scrollo
         [setLocationHash]="false"
-        [tweenDuration]="5000"
-        [tweenEasing]="'linear'"
-        [tweenBegin]="70"
-        [tweenEnd]="100"
+        [scrolloDuration]="5000"
+        [scrolloEasing]="'linear'"
+        [scrolloBegin]="70"
+        [scrolloEnd]="100"
       >
       </a>
   </div>
   </nav>
   <main class="container absolute top full-width main">
     <section
-      class="container full-width full-height fixed top flex row center middle section__one"
+      class="container full-width full-height fixed top flex row center middle section__one anim-text"
       ngx-scrollo
-      [tweenBegin]="1"
-      [tweenEnd]="100"
+      [scrolloBegin]="1"
+      [scrolloEnd]="100"
+      [scrolloFrom]="{letterSpacing : '0vw', fontSize : '2.25rem', opacity: '1'}"
+      [scrolloTo]="{letterSpacing : '6vw', fontSize : '0rem', opacity: '0'}"
+      [scrolloEasing]="'easeOutQuad'"
+      [scrolloOnBegin]="animOneOnBegin"
+      [scrolloOnEnd]="animOneOnEnd"
+      [scrolloOnReverseBegin]="animOneOnReverseBegin"
+      [scrolloOnReverseEnd]="animOneOnReverseEnd"
+      [scrolloOnProgress]="animOneOnProgress"
       >
       <div class="text center">
-        <h1
-          class="title"
-          ngx-scrollo
-          [tweenBegin]="1"
-          [tweenEnd]="100"
-          [tweenFrom]="{letterSpacing : '0vw', fontSize : '2.25rem', opacity: '1'}"
-          [tweenTo]="{letterSpacing : '6vw', fontSize : '0rem', opacity: '0'}"
-          [tweenEasing]="'easeOutQuad'"
-          [tweenOnBegin]="animOneOnBegin"
-          [tweenOnEnd]="animOneOnEnd"
-          [tweenOnReverseBegin]="animOneOnReverseBegin"
-          [tweenOnReverseEnd]="animOneOnReverseEnd"
-          [tweenOnProgress]="animOneOnProgress"
-        >
-          ngx-scrollo
-        </h1>
+        <span>ngx-scrollo</span>
       </div>
     </section>
     <section class="container full-width full-height flex row center middle section__two">
@@ -58,35 +51,35 @@
         <h2
           class="title"
           ngx-scrollo
-          [tweenBegin]="1"
-          [tweenEnd]="40"
-          [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
-          [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
-          [tweenEasing]="'easeOutBack'"
-          [tweenOnProgress]="anim2OnProgress"
+          [scrolloBegin]="1"
+          [scrolloEnd]="100"
+          [scrolloFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '1'}"
+          [scrolloTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
+          [scrolloEasing]="'easeOutBack'"
+          [scrolloOnProgress]="anim2OnProgress"
         >
           Scroll animations
         </h2>
         <h2
           class="title"
           ngx-scrollo
-          [tweenBegin]="10"
-          [tweenEnd]="50"
-          [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
-          [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
-          [tweenEasing]="'easeOutBack'"
-          [tweenOnProgress]="anim2OnProgress"
+          [scrolloBegin]="10"
+          [scrolloEnd]="100"
+          [scrolloFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
+          [scrolloTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
+          [scrolloEasing]="'easeOutBack'"
+          [scrolloOnProgress]="anim2OnProgress"
         >
           made simple
         </h2>
         <h2
           class="title"
           ngx-scrollo
-          [tweenBegin]="20"
-          [tweenEnd]="60"
-          [tweenFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
-          [tweenTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
-          [tweenEasing]="'easeOutBack'"
+          [scrolloBegin]="20"
+          [scrolloEnd]="100"
+          [scrolloFrom]="{letterSpacing : '-0.15rem', fontSize : '0rem', opacity: '0'}"
+          [scrolloTo]="{letterSpacing : '0rem', fontSize : '1.75rem', opacity: '1'}"
+          [scrolloEasing]="'easeOutBack'"
         >
           and responsive
         </h2>
@@ -96,24 +89,24 @@
       <pre
         class="prettyprint lang-js"
         ngx-scrollo
-        [tweenBegin]="1"
-        [tweenEnd]="30"
+        [scrolloBegin]="15"
+        [scrolloEnd]="30"
       >
         {{ codeExamples.install}}
       </pre>
       <pre
         class="prettyprint lang-js"
         ngx-scrollo
-        [tweenBegin]="10"
-        [tweenEnd]="40"
+        [scrolloBegin]="15"
+        [scrolloEnd]="30"
       >
           {{ codeExamples.import }}
         </pre>
       <pre
         class="prettyprint lang-html"
         ngx-scrollo
-        [tweenBegin]="20"
-        [tweenEnd]="50"
+        [scrolloBegin]="15"
+        [scrolloEnd]="30"
       >
         {{ codeExamples.html01}}
       </pre>
@@ -121,6 +114,11 @@
           <a href="https://github.com/ZbigiMan/ngx-scrollo" target="_blank">see more...</a>
       </div>
     </section>
-    <span id="bottom"></span>
+    <span
+      id="bottom"
+      ngx-scrollo
+      [scrolloBegin]="1"
+      [scrolloEnd]="100"
+    ></span>
   </main>
 </ng-template>
