@@ -24,14 +24,6 @@
 
 .fixed {
   position: fixed;
-
-  &.top {
-    top: 0;
-  }
-
-  &.bottom {
-    bottom: 0;
-  }
 }
 
 .relative {
@@ -40,6 +32,14 @@
 
 .absolute {
   position: absolute;
+}
+
+.top {
+  top: 0;
+}
+
+.bottom {
+  bottom: 0;
 }
 
 .text {

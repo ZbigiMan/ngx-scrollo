@@ -65,6 +65,11 @@ export class ScrolloDirective implements AfterViewInit, OnChanges {
     private revStarted = 0;
     private revCompleted = 0;
 
+    private body: HTMLElement;
+    private href: string;
+    private anchorId: string;
+    private anchorOffset: any;
+
     private errors = {
         error: 'ngx-scrollo Settings Error.',
         formToDontMatch: 'scrolloFrom and scrolloTo values don\'t match.',
@@ -116,13 +121,14 @@ export class ScrolloDirective implements AfterViewInit, OnChanges {
     @HostListener('click', ['$event']) public onClick(event: Event) {
         if (this.tag === 'A') {
             event.preventDefault();
-            const href = this.el.nativeElement.href;
 
-            if (href.indexOf('#') !== -1) {
+            this.href = this.el.nativeElement.getAttribute('href');
+
+            if (this.href.indexOf('#') !== -1) {
 
                 this.vh = this.service.vh();
                 const currentScrollTop: number = this.service.scrollTop();
-                const anchorId: string = href.split('#')[1];
+                const anchorId: string = this.href.split('#')[1];
                 const anchor: HTMLElement = document.getElementById(anchorId);
 
                 if (!anchor) {

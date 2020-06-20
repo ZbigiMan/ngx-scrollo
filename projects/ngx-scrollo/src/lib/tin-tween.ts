@@ -58,7 +58,6 @@ export class TinTween {
                 f = window.requestAnimationFrame(tw);
             } else {
                 window.cancelAnimationFrame(f);
-                value = opt.to;
 
                 if (opt.onComplete !== undefined) {
                     opt.onComplete({
@@ -66,6 +65,8 @@ export class TinTween {
                         value
                     });
                 }
+
+                progress = 0;
             }
 
             opt.element[opt.property] = value;
