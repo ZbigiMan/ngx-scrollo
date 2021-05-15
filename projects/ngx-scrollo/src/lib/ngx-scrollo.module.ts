@@ -1,18 +1,16 @@
-// ngx-scrollo previously circus-scroll-2
-// Released: December 2016, refactored: 2018, 2019
-// Author: Zbigi Man Zbigniew Stepniewski, www.zbigiman.com, github.com/zbigiman
-
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ScrolloDirective } from './ngx-scrollo.directive';
-import { TinTween } from './tin-tween';
+import { NgxScrolloDirective } from './ngx-scrollo.directive';
+
+
 
 @NgModule({
-  imports: [
-    CommonModule
+  declarations: [
+    NgxScrolloDirective
   ],
-  declarations: [ScrolloDirective],
-  exports: [ScrolloDirective],
-  providers: [TinTween]
+  imports: [
+  ],
+  exports: [
+    NgxScrolloDirective
+  ]
 })
-export class ScrolloModule { }
+export class NgxScrolloModule { }

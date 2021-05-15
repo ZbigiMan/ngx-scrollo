@@ -1,95 +1,41 @@
 {
-  "name": "ngx-scrollo-project",
-  "version": "0.0.4",
+  "name": "ngx-scrollo-demo",
+  "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.803.19",
-    "@angular/animations": "^8.2.14",
-    "@angular/common": "^8.2.14",
-    "@angular/compiler": "^8.2.14",
-    "@angular/core": "^8.2.14",
-    "@angular/forms": "^8.2.14",
-    "@angular/http": "^7.2.15",
-    "@angular/platform-browser": "^8.2.14",
-    "@angular/platform-browser-dynamic": "^8.2.14",
-    "@angular/router": "^8.2.14",
-    "core-js": "^3.4.1",
-    "rxjs": "^6.5.3",
-    "zone.js": "^0.10.2",
-    "code-prettify": "~0.1.0"
+    "@angular/animations": "~12.0.0",
+    "@angular/common": "~12.0.0",
+    "@angular/compiler": "~12.0.0",
+    "@angular/core": "~12.0.0",
+    "@angular/forms": "~12.0.0",
+    "@angular/platform-browser": "~12.0.0",
+    "@angular/platform-browser-dynamic": "~12.0.0",
+    "@angular/router": "~12.0.0",
+    "code-prettify": "^0.1.0",
+    "rxjs": "~6.6.0",
+    "tslib": "^2.1.0",
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-ng-packagr": "~0.803.19",
-    "@angular/cli": "~8.3.19",
-    "@angular/compiler-cli": "^8.2.14",
-    "@angular/language-service": "^8.2.14",
-    "@types/jasmine": "~3.4.6",
-    "@types/jasminewd2": "~2.0.3",
-    "@types/node": "~12.12.8",
-    "codelyzer": "~5.2.0",
-    "jasmine-core": "~3.5.0",
-    "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~4.4.1",
+    "@angular-devkit/build-angular": "~12.0.0",
+    "@angular/cli": "~12.0.0",
+    "@angular/compiler-cli": "~12.0.0",
+    "@types/jasmine": "~3.6.0",
+    "@types/node": "^12.11.1",
+    "jasmine-core": "~3.7.0",
+    "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage-istanbul-reporter": "~2.1.0",
-    "karma-jasmine": "~2.0.1",
-    "karma-jasmine-html-reporter": "^1.4.2",
-    "ng-packagr": "^5.7.1",
-    "protractor": "~5.4.2",
-    "ts-node": "~8.5.2",
-    "tsickle": ">=0.25.5",
-    "tslib": "^1.7.1",
-    "tslint": "~5.20.1",
-    "typescript": "^3.5.3"
-  },
-  "projects": {
-    "ngx-scrollo": {
-      "root": "projects/ngx-scrollo",
-      "sourceRoot": "projects/ngx-scrollo/src",
-      "projectType": "library",
-      "prefix": "enl",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/ngx-scrollo/tsconfig.lib.json",
-            "project": "projects/ngx-scrollo/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/ngx-scrollo/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/ngx-scrollo/src/test.ts",
-            "tsConfig": "projects/ngx-scrollo/tsconfig.spec.json",
-            "karmaConfig": "projects/ngx-scrollo/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-scrollo/tsconfig.lib.json",
-              "projects/ngx-scrollo/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    }
+    "karma-coverage": "~2.0.3",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "^1.5.0",
+    "ng-packagr": "^12.0.0",
+    "typescript": "~4.2.3"
   }
 }

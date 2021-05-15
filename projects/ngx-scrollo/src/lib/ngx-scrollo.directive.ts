@@ -1,6 +1,5 @@
-import { browser } from 'protractor';
 // ngx-scrollo previously circus-scroll-2
-// Released: December 2016, refactored: 2018, 2019
+// Released: December 2016, refactored: 2018, 2019, 2021
 // Author: Zbigi Man Zbigniew Stepniewski, www.zbigiman.com, github.com/zbigiman
 
 import { Directive, ElementRef, HostListener, Input, Inject, AfterViewInit } from '@angular/core';
@@ -13,13 +12,13 @@ import { DOCUMENT } from '@angular/common';
     providers: [TinTween]
 })
 
-export class ScrolloDirective implements AfterViewInit {
+export class NgxScrolloDirective implements AfterViewInit {
 
-    @Input() tweenBegin: string;
-    @Input() tweenEnd: string;
-    @Input() tweenFrom: string;
-    @Input() tweenTo: string;
-    @Input() tweenEasing: string;
+    @Input() tweenBegin: any;
+    @Input() tweenEnd: any;
+    @Input() tweenFrom: any;
+    @Input() tweenTo: any;
+    @Input() tweenEasing: any;
     @Input() tweenOnBegin: Function;
     @Input() tweenOnEnd: Function;
     @Input() tweenOnReverseBegin: Function;
@@ -28,8 +27,8 @@ export class ScrolloDirective implements AfterViewInit {
     @Input() tweenDuration: number;
     @Input() setLocationHash: boolean;
 
-    private begin: number;
-    private end: number;
+    private begin: number | null;
+    private end: number | null;
     private from: string;
     private to: string;
     private easing: string;
@@ -43,6 +42,7 @@ export class ScrolloDirective implements AfterViewInit {
 
     private browser: any;
 
+    private document: HTMLDocument;
     private el: ElementRef;
     private tag: string;
     private vh: number;
@@ -68,10 +68,11 @@ export class ScrolloDirective implements AfterViewInit {
     };
 
     constructor(
-        @Inject(DOCUMENT) document,
+        @Inject(DOCUMENT) document: HTMLDocument,
         public elementRef: ElementRef,
         private tinTween: TinTween
     ) {
+        this.document = document;
         this.tinTween = tinTween;
         this.el = elementRef;
         this.tag = this.el.nativeElement.tagName;
@@ -110,35 +111,37 @@ export class ScrolloDirective implements AfterViewInit {
         this.onProgress = this.tweenOnProgress;
         this.duration = this.tweenDuration || 1000;
 
-        this.vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        this.vh = Math.max(this.document.documentElement.clientHeight, window.innerHeight || 0);
 
         this.elementOffset = this.offset(this.el.nativeElement);
 
-        if (!this.end) {
+        if (!this.end && this.begin) {
             this.end = this.begin + 1;
         }
 
-        if (this.elementOffset.top > this.vh) {
-            this.beginParsed = (((this.begin / 100) * this.vh) + this.elementOffset.top) - this.vh;
-            this.endParsed = (((this.end / 100) * this.vh) + this.elementOffset.top) - this.vh;
-        } else {
-            this.beginParsed = (this.begin / 100) * this.vh;
-            this.endParsed = (this.end / 100) * this.vh;
+        if (this.end && this.begin) {
+            if (this.elementOffset.top > this.vh) {
+                this.beginParsed = (((this.begin / 100) * this.vh) + this.elementOffset.top) - this.vh;
+                this.endParsed = (((this.end / 100) * this.vh) + this.elementOffset.top) - this.vh;
+            } else {
+                this.beginParsed = (this.begin / 100) * this.vh;
+                this.endParsed = (this.end / 100) * this.vh;
+            }
         }
 
         if (this.tag === 'A') {
 
             this.locationHash = this.setLocationHash === undefined ? true : this.setLocationHash;
 
-            this.body = document.documentElement;
+            this.body = this.document.documentElement;
 
             if (this.browser.edge) {
-                this.body = document.body;
+                this.body = this.document.body;
             }
 
             this.href = this.el.nativeElement.href;
             this.anchorId = this.href.split('#')[1];
-            const anchor: HTMLElement = document.getElementById(this.anchorId);
+            const anchor: HTMLElement | null = this.document.getElementById(this.anchorId);
 
             if (!anchor) {
                 this.anchorOffset = {
@@ -164,7 +167,7 @@ export class ScrolloDirective implements AfterViewInit {
 
             if (this.href.indexOf('#') !== -1) {
 
-                const currentScrollTop: number = document.documentElement.scrollTop || document.body.scrollTop;
+                const currentScrollTop: number = this.document.documentElement.scrollTop || this.document.body.scrollTop;
 
                 this.tinTween.tween({
                     'element': this.body,
@@ -175,11 +178,10 @@ export class ScrolloDirective implements AfterViewInit {
                     'easing': this.easing,
                     'onComplete': () => {
                         if (this.locationHash) {
-                            document.location.hash = this.anchorId;
+                            this.document.location.hash = this.anchorId;
                         }
                     },
-                    'onProgress': (data) => {
-                        // console.log(data);
+                    'onProgress': () => {
                     }
                 });
             }
@@ -232,13 +234,13 @@ export class ScrolloDirective implements AfterViewInit {
             }
             //
 
-            Object.keys(this.to).forEach(function (prop, i) {
+            Object.keys(this.to).forEach(function (prop: any, i: number) {
 
                 // Checking if 'from' and 'to' property match
                 if (prop !== Object.keys(that.from)[i]) {
-                    console.error(this.errors.error);
-                    console.error(this.errors.formToDontMatch);
-                    console.error(this.el);
+                    console.error(that.errors.error);
+                    console.error(that.errors.formToDontMatch);
+                    console.error(that.el);
                     return;
                 }
 
@@ -249,7 +251,7 @@ export class ScrolloDirective implements AfterViewInit {
                 const c = e - b; // Change
                 const d = that.endParsed - that.beginParsed; // Duration
                 let t = that.tweenPogress * d; // Time,
-                let unit = false; // px for example
+                let unit = ''; // px for example
 
                 if (that.completed === 1) {
                     t = d;
@@ -259,10 +261,8 @@ export class ScrolloDirective implements AfterViewInit {
                     t = 0;
                 }
 
-                if (e !== value) {
-                    unit = value.split(e).join('');
-                } else {
-                    unit = false;
+                if (e.toString() !== value) {
+                    unit = value.split(e.toString()).join('');
                 }
 
                 if (t >= 0 && t <= d) {
@@ -276,7 +276,7 @@ export class ScrolloDirective implements AfterViewInit {
                     const newIntVal = that.tinTween.Easing[that.easing](null, t, b, c, d);
                     let newVal: string;
 
-                    if (unit !== false) {
+                    if (unit !== '') {
                         newVal = newIntVal + unit;
                     } else {
                         newVal = newIntVal;

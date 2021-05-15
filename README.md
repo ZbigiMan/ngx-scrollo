@@ -13,12 +13,12 @@ npm i ngx-scrollo
 ```
 ### Import:
 ```javascript
-import { ScrolloModule } from 'ngx-scrollo';
+import { NgxScrolloModule } from 'ngx-scrollo';
 
 @NgModule({
     // ...
     imports: [
-        ScrolloModule,
+        NgxScrolloModule,
         // ...
     ],
     // ...
