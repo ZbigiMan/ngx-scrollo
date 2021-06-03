@@ -6,6 +6,9 @@ import { Directive, ElementRef, HostListener, Input, Inject, AfterViewInit } fro
 import { TinTween } from './tin-tween';
 import { DOCUMENT } from '@angular/common';
 
+import { CssProps, ElementOffset, AnchorOffset, Browser } from './ngx-scrollo.interfaces';
+import { ERROR_MESSAGES } from './ngx-scrollo.constants';
+
 @Directive({
     // tslint:disable-next-line:directive-selector
     selector: '[ngx-scrollo]',
@@ -14,11 +17,11 @@ import { DOCUMENT } from '@angular/common';
 
 export class NgxScrolloDirective implements AfterViewInit {
 
-    @Input() tweenBegin: any;
-    @Input() tweenEnd: any;
-    @Input() tweenFrom: any;
-    @Input() tweenTo: any;
-    @Input() tweenEasing: any;
+    @Input() tweenBegin: number;
+    @Input() tweenEnd: number;
+    @Input() tweenFrom: CssProps;
+    @Input() tweenTo: CssProps;
+    @Input() tweenEasing: string; // TODO Add easing types interface
     @Input() tweenOnBegin: Function;
     @Input() tweenOnEnd: Function;
     @Input() tweenOnReverseBegin: Function;
@@ -29,8 +32,8 @@ export class NgxScrolloDirective implements AfterViewInit {
 
     private begin: number | null;
     private end: number | null;
-    private from: string;
-    private to: string;
+    private from: CssProps;
+    private to: CssProps;
     private easing: string;
     private onBegin: Function;
     private onEnd: Function;
@@ -40,13 +43,16 @@ export class NgxScrolloDirective implements AfterViewInit {
     private duration: number;
     private locationHash: boolean;
 
-    private browser: any;
-
+    private browser: Browser;
     private document: HTMLDocument;
+    private body: HTMLElement;
+    private href: string;
+    private anchorId: string;
+    private anchorOffset: AnchorOffset;
     private el: ElementRef;
     private tag: string;
     private vh: number;
-    private elementOffset: any;
+    private elementOffset: ElementOffset;
     private scrollTop: number;
     private beginParsed: number;
     private endParsed: number;
@@ -55,17 +61,6 @@ export class NgxScrolloDirective implements AfterViewInit {
     private completed = 0;
     private revStarted = 0;
     private revCompleted = 0;
-
-    private body: HTMLElement;
-    private href: string;
-    private anchorId: string;
-    private anchorOffset: any;
-
-    private errors = {
-        'error': 'ngx-scrollo Settings Error.',
-        'formToDontMatch': 'tweenFrom and tweenTo values don\'t match.',
-        'beginEndDontMatch': 'tweenBegin and tweenEnd values don\'t match.'
-    };
 
     constructor(
         @Inject(DOCUMENT) document: HTMLDocument,
@@ -99,8 +94,15 @@ export class NgxScrolloDirective implements AfterViewInit {
             firefox: _navigator.indexOf('firefox') > -1
         };
 
-        this.begin = parseInt(this.tweenBegin, 10) || null;
-        this.end = parseInt(this.tweenEnd, 10) || null;
+        if (this.browser.edge) {
+            this.body = this.document.body;
+        }
+        this.body = this.document.documentElement;
+
+        this.body.scrollTop = 0;
+        
+        this.begin = this.tweenBegin;
+        this.end = this.tweenEnd;
         this.from = this.tweenFrom;
         this.to = this.tweenTo;
         this.easing = this.tweenEasing;
@@ -132,12 +134,6 @@ export class NgxScrolloDirective implements AfterViewInit {
         if (this.tag === 'A') {
 
             this.locationHash = this.setLocationHash === undefined ? true : this.setLocationHash;
-
-            this.body = this.document.documentElement;
-
-            if (this.browser.edge) {
-                this.body = this.document.body;
-            }
 
             this.href = this.el.nativeElement.href;
             this.anchorId = this.href.split('#')[1];
@@ -227,8 +223,8 @@ export class NgxScrolloDirective implements AfterViewInit {
             // Checking 'from' and 'to' objects length
 
             if (Object.keys(this.from).length !== Object.keys(this.to).length) {
-                console.error(this.errors.error);
-                console.error(this.errors.formToDontMatch);
+                console.error(ERROR_MESSAGES.ERROR);
+                console.error(ERROR_MESSAGES.FORM_TO_DONT_MATCH);
                 console.error(this.el);
                 return;
             }
@@ -238,8 +234,8 @@ export class NgxScrolloDirective implements AfterViewInit {
 
                 // Checking if 'from' and 'to' property match
                 if (prop !== Object.keys(that.from)[i]) {
-                    console.error(that.errors.error);
-                    console.error(that.errors.formToDontMatch);
+                    console.error(ERROR_MESSAGES.ERROR);
+                    console.error(ERROR_MESSAGES.FORM_TO_DONT_MATCH);
                     console.error(that.el);
                     return;
                 }
@@ -357,13 +353,12 @@ export class NgxScrolloDirective implements AfterViewInit {
     offset(elem: HTMLElement) {
         const box = elem.getBoundingClientRect();
 
-        return {
+        return <ElementOffset>{
             top: box.top,
             left: box.left,
             height: box.height,
             width: box.width
-
-        };
+        }
     }
 
     // addClass and removeClass methods

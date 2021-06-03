@@ -1,13 +1,13 @@
-import { ScrolloModule } from './ngx-scrollo.module';
+import { NgxScrolloModule } from './ngx-scrollo.module';
 
-describe('ScrolloModule', () => {
-  let scrolloModule: ScrolloModule;
+describe('NgxScrolloModule', () => {
+  let ngxScrolloModule: NgxScrolloModule;
 
   beforeEach(() => {
-    scrolloModule = new ScrolloModule();
+    ngxScrolloModule = new NgxScrolloModule();
   });
 
   it('should create an instance', () => {
-    expect(scrolloModule).toBeTruthy();
+    expect(ngxScrolloModule).toBeTruthy();
   });
 });
